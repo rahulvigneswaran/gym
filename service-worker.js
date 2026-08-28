@@ -1,9 +1,8 @@
-const CACHE_NAME = 'recomp-cache-v4';
+const CACHE_NAME = 'recomp-cache-v5';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './gym.html',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
