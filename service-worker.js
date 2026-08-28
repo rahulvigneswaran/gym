@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recomp-cache-v3';
+const CACHE_NAME = 'recomp-cache-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -15,24 +15,46 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          return response;
+  /* Chrome re-reads the manifest to notice changes such as `display`. Serving that
+     from cache pins an installed app to whatever shipped first, so go to the network. */
+  if (url.pathname.endsWith('.webmanifest')) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+          return res;
         })
-        .catch(() => caches.match('./index.html'));
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  /* Everything else answers from cache for speed but refreshes behind the scenes,
+     so a new deploy lands on the next launch without bumping CACHE_NAME. */
+  event.respondWith(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cached = await cache.match(req);
+      const network = fetch(req)
+        .then((res) => { if (res && res.ok) cache.put(req, res.clone()); return res; })
+        .catch(() => null);
+      if (cached) {
+        event.waitUntil(network);
+        return cached;
+      }
+      return (await network) || cache.match('./index.html');
     })
   );
 });
