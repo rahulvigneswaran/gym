@@ -162,7 +162,30 @@ button{background:none;border:0;cursor:pointer}
 
 /* ---------- logging ---------- */
 .shead{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin:22px 0 11px;font-stretch:92%}
-.setrow{display:grid;grid-template-columns:22px 1fr 1fr 66px;gap:9px;align-items:center;margin-bottom:10px}
+.setrow{display:grid;grid-template-columns:22px 1fr 1fr 66px;gap:3px 9px;align-items:center;margin-bottom:10px}
+.thead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 11px}
+.thead .shead{margin:0}
+.barchip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-n);font-size:11.5px;
+  color:var(--ink2);background:var(--surface2);border:1px solid var(--line);border-radius:999px;
+  padding:7px 13px;white-space:nowrap;font-variant-numeric:tabular-nums;transition:all var(--t1)}
+.barchip svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.barchip:active{transform:scale(.95)}
+.barchip.on{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.baredit{background:var(--surface2);border:1px solid var(--line);border-radius:17px;
+  padding:13px 14px 14px;margin:0 0 14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.baredit .bk{flex:1 1 100%;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);font-weight:700}
+.baredit .seg{flex:1 1 190px;background:var(--bg)}
+.baredit .seg button{flex:1;padding:9px 4px;font-family:var(--font-n);font-size:13px}
+.bother{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3)}
+.bother input{width:64px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--bg);
+  color:var(--ink);font-family:var(--font-n);font-size:14.5px;text-align:center;outline:none;padding:0;
+  font-variant-numeric:tabular-nums}
+.bother input:focus{border-color:var(--accent)}
+.setcalc{grid-column:2/3;font-family:var(--font-n);font-size:11.5px;color:var(--ink3);
+  text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.setcalc b{color:var(--accent);font-weight:700}
+.setrow.done .setcalc{opacity:.7}
 .setn{font-family:var(--font-n);font-size:13px;color:var(--ink3)}
 .setrow.next .setn{color:var(--accent);font-weight:700}
 .fld{position:relative}
@@ -276,8 +299,8 @@ button{background:none;border:0;cursor:pointer}
 .mcard{display:block;width:100%;text-align:left;padding:20px;border-radius:22px;margin-bottom:12px;
   border:1px solid var(--line);background:var(--surface);transition:transform var(--t1)}
 .mcard:active{transform:scale(.985)}
-.mcard.danger{margin-top:20px;background:var(--bad-soft);border-color:var(--bad-soft)}
-.mcard.danger b{color:var(--bad)}
+.mcard.bad{margin-top:20px;background:var(--bad-soft);border-color:var(--bad-soft)}
+.mcard.bad b{color:var(--bad)}
 .mcard b{font-family:var(--font-t);font-size:16.5px;font-weight:600;display:block;letter-spacing:-.012em}
 .mcard span{color:var(--ink2);font-size:13.5px}
 
@@ -317,6 +340,51 @@ button{background:none;border:0;cursor:pointer}
 .sess .d{font-family:var(--font-n);font-size:12px;color:var(--ink3)}
 .empty{color:var(--ink3);font-size:14.5px;text-align:center;padding:44px 20px;line-height:1.6}
 
+/* ---------- progress charts ---------- */
+.psub{font-size:12px;line-height:1.55;color:var(--ink3);margin:-6px 0 13px}
+.wbars{display:flex;align-items:flex-end;gap:3px;height:104px;position:relative;border-bottom:1px solid var(--line)}
+.wb{flex:1;height:100%;display:flex;align-items:flex-end}
+.wb i{display:block;width:100%;min-height:2px;border-radius:3px 3px 0 0;background:var(--accent);opacity:.45}
+.wb.now i{opacity:1}
+.wb.zero i{background:var(--line);opacity:1;height:2px}
+.wavg{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--ink3);opacity:.5}
+.wfoot{display:flex;justify-content:space-between;font-family:var(--font-n);font-size:10.5px;
+  color:var(--ink3);margin-top:7px;font-variant-numeric:tabular-nums}
+
+.mrow{display:grid;grid-template-columns:74px 1fr 34px;align-items:center;gap:10px;margin-bottom:9px}
+.mrow .mn{font-size:12.5px;color:var(--ink2)}
+.mrow .mt{position:relative;height:13px;border-radius:7px;background:var(--surface2);overflow:hidden}
+.mrow .mt .band{position:absolute;top:0;bottom:0;background:var(--accent-soft)}
+.mrow .mt .fill{position:absolute;top:0;bottom:0;left:0;border-radius:7px;background:var(--accent)}
+.mrow.low .mt .fill{background:var(--ink3)}
+.mrow.over .mt .fill{background:var(--bad)}
+.mrow .mv{font-family:var(--font-n);font-size:12px;text-align:right;color:var(--ink2);font-variant-numeric:tabular-nums}
+
+.liftrow{display:grid;grid-template-columns:1fr 78px;gap:12px;align-items:center;width:100%;
+  text-align:left;padding:13px 2px;border-bottom:1px solid var(--line)}
+.liftrow:active{opacity:.6}
+.liftrow .ln{font-size:14.5px;font-weight:600;letter-spacing:-.012em;display:block;margin-bottom:4px}
+.liftrow .lm{font-family:var(--font-n);font-size:11.5px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.liftrow .lm b{color:var(--ink);font-weight:700}
+.liftrow .lm em{font-style:normal;font-weight:700}
+.liftrow .lm em.up{color:var(--good)}
+.liftrow .lm em.down{color:var(--bad)}
+.liftrow .spark{height:32px;margin:0}
+
+.cgrid{display:grid;grid-template-columns:repeat(7,24px) auto;justify-content:start;gap:5px}
+.cgrid .ch{font-family:var(--font-n);font-size:9.5px;color:var(--ink3);text-align:center;padding-bottom:2px}
+.cgrid i{width:24px;height:24px;border-radius:7px;background:var(--surface2)}
+.cgrid i.on{background:var(--accent)}
+.cgrid i.now{box-shadow:inset 0 0 0 1.5px var(--ink3)}
+.cgrid .cn{font-family:var(--font-n);font-size:10.5px;color:var(--ink3);align-self:center;
+  padding-left:7px;font-variant-numeric:tabular-nums}
+
+.pbrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:11px 2px;
+  border-bottom:1px solid var(--line)}
+.pbrow .pn{font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pbrow .pv{font-family:var(--font-n);font-size:12px;color:var(--ink3);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pbrow .pv b{color:var(--ink);font-weight:700}
+
 /* programme guide */
 .lede{font-family:var(--font-r);font-size:18px;font-weight:400;line-height:1.58;color:var(--ink2);margin:0 0 24px;
   font-variation-settings:"opsz" 20,"WONK" 0}
@@ -329,6 +397,11 @@ button{background:none;border:0;cursor:pointer}
 /* settings */
 .row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
 .row label{font-size:15px;font-weight:500}
+.row label .sub{display:block;font-size:11.5px;font-weight:400;color:var(--ink3);margin-top:3px}
+.row input[type=number]{height:44px;width:96px;border-radius:13px;border:1px solid var(--line);
+  background:var(--surface);padding:0 10px;outline:none;font-size:15px;font-family:var(--font-n);
+  color:var(--ink);text-align:center;font-variant-numeric:tabular-nums;flex:none}
+.row input[type=number]:focus{border-color:var(--accent)}
 .row input[type=text],.row select{height:44px;border-radius:13px;border:1px solid var(--line);
   background:var(--surface);padding:0 12px;max-width:60%;outline:none;font-size:14.5px}
 .seg{display:flex;gap:4px;padding:4px;border-radius:13px;background:var(--surface2)}
@@ -494,28 +567,50 @@ const clampInt = (v, lo, hi, dflt) => { const n = Math.round(Number(v)); return 
 const str = (v, max) => typeof v === "string" ? v.slice(0, max) : "";
 const numOrStr = v => typeof v === "string" ? v.slice(0, 10) : (typeof v === "number" && Number.isFinite(v) ? String(v) : "");
 
-/* ---------------- state ---------------- */
+/* ---------------- state ----------------
+   The saved blob is versioned. Anything written by an older build is upgraded on
+   load, and keys a newer build added are carried through untouched, so a file
+   always opens in whichever version you happen to be running. */
 const KEY = "recomp.v1";
+const SCHEMA_VERSION = 2;
 const DEFAULTS = {
+  schema: SCHEMA_VERSION,
   name: "Rahul", splitId: "fundamentals", queueIndex: 0, units: "kg", theme: "auto",
   program: null, customExercises: [], logs: [], session: null,
-  dayStamp: null, startWeek: null, rest: null
+  dayStamp: null, startWeek: null, rest: null, sound: true
 };
 let S = load();
 
 function load() {
   try {
     const raw = localStorage.getItem(KEY);
-    if (!raw) return { ...DEFAULTS };
-    const p = JSON.parse(raw);
+    const p = raw ? JSON.parse(raw) : null;
     const s = { ...DEFAULTS, ...(p && typeof p === "object" ? p : {}) };
     if (s.splitId !== "fundamentals" && !SPLITS.some(x => x.id === s.splitId)) s.splitId = DEFAULTS.splitId;
     if (!Array.isArray(s.logs)) s.logs = [];
     if (!Array.isArray(s.customExercises)) s.customExercises = [];
     if (typeof s.queueIndex !== "number" || s.queueIndex < 0) s.queueIndex = 0;
     if (s.program && !validProgram(s.program)) s.program = null;
-    return s;
-  } catch (e) { return { ...DEFAULTS }; }
+    return migrate(s);
+  } catch (e) { return migrate({ ...DEFAULTS }); }
+}
+
+/* v1 knew only a single `weight` per set, which was the total on the bar. v2 also
+   keeps `entry` — what you actually loaded per side or per bell — plus the bar
+   weights it is added to. Older blobs simply arrive without them. */
+function migrate(s) {
+  const v = Number(s.schema) || 1;
+  if (!s.bars || typeof s.bars !== "object") s.bars = {};
+  if (!s.bars.kg || typeof s.bars.kg !== "object") s.bars.kg = {};
+  if (!s.bars.lb || typeof s.bars.lb !== "object") s.bars.lb = {};
+  if (typeof s.sound !== "boolean") s.sound = true;
+  if (v < 2 && s.session && Array.isArray(s.session.exercises)) {
+    s.session.exercises.forEach(e => (e.sets || []).forEach(st => {
+      if (st && typeof st === "object" && st.entry == null) st.entry = "";
+    }));
+  }
+  s.schema = SCHEMA_VERSION;
+  return s;
 }
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
@@ -525,6 +620,115 @@ function refreshEx() {
   S.customExercises.forEach(c => { if (c && c.id) EX[c.id] = c; });
 }
 refreshEx();
+
+
+/* ---------------- loading maths ----------------
+   You type what you actually loaded and the equipment supplies the rest:
+     total = base + factor × entry
+   `base` and `factor` are the whole of the arithmetic. `mode` only decides how
+   the box is worded, which is why it is read in exactly one place, loadCopy().
+     bar     plates on one side, doubled, on top of the bar
+     dbPair  one bell, doubled, because both hands are working
+     dbOne   one bell, single-arm
+     stack   the pin, as the machine reads it
+     body    added weight only — an empty box means bodyweight and settles at 0 */
+const BAR_KINDS = ["olympic", "ez", "smith", "fixed"];
+const BAR_LABEL = { olympic: "Olympic bar", ez: "EZ bar", smith: "Smith machine", fixed: "Fixed bar" };
+const BAR_DEFAULTS = {
+  kg: { olympic: 20, ez: 10, smith: 15, fixed: 15 },
+  lb: { olympic: 45, ez: 25, smith: 35, fixed: 35 }
+};
+const LOAD_MODES = ["bar", "dbPair", "dbOne", "stack", "body"];
+
+/* built-in movements whose loading does not follow from their `equipment` field */
+const LOAD_OVERRIDE = {
+  "skullcrusher": { mode: "bar", bar: "ez" },
+  "barbell-curl": { mode: "bar", bar: "ez" },
+  "one-arm-db-row": { mode: "dbOne" }
+};
+/* last resort for an imported movement that declared no `load` of its own */
+const ONE_SIDED = /\b(one[-\s]?arm|single[-\s]?arm|1[-\s]?arm|one[-\s]?hand|goblet|landmine)\b/i;
+
+const unitKey = () => (S.units === "lb" ? "lb" : "kg");
+const round1 = n => Math.round(n * 10) / 10;
+function barWeight(kind) {
+  const u = unitKey();
+  const v = Number(((S.bars || {})[u] || {})[kind]);
+  return Number.isFinite(v) && v >= 0 ? v : BAR_DEFAULTS[u][kind];
+}
+
+function loadPlan(exerciseId) {
+  const e = EX[exerciseId] || {};
+  /* an imported definition wins, since it was written for this exact movement */
+  const o = (e.load && typeof e.load === "object" ? e.load : null) || LOAD_OVERRIDE[exerciseId] || {};
+  const eq = String(e.equipment || "").toLowerCase();
+  let mode = LOAD_MODES.includes(o.mode) ? o.mode : null;
+  if (!mode) {
+    if (eq === "barbell") mode = "bar";
+    else if (eq === "dumbbell") mode = ONE_SIDED.test(e.name || exerciseId) ? "dbOne" : "dbPair";
+    else if (eq === "bodyweight") mode = "body";
+    else mode = "stack";
+  }
+  const bar = mode === "bar" ? (BAR_KINDS.includes(o.bar) ? o.bar : "olympic") : null;
+  return { mode, bar, base: bar ? barWeight(bar) : 0, factor: mode === "bar" || mode === "dbPair" ? 2 : 1 };
+}
+
+/* entry → total. null means nothing usable was typed. */
+const totalFor = (plan, entry) => {
+  const v = parseFloat(entry);
+  return Number.isFinite(v) ? round1(plan.base + plan.factor * v) : null;
+};
+/* total → entry, so history written before this existed still pre-fills sanely */
+const entryFromTotal = (plan, total) => {
+  const v = parseFloat(total);
+  return Number.isFinite(v) ? String(Math.max(0, round1((v - plan.base) / plan.factor))) : "";
+};
+/* what to pre-fill from last time. Bodyweight work never inherits: there, blank is an answer. */
+const refEntry = (plan, ref) =>
+  (!ref || plan.mode === "body") ? "" : ref.entry ? String(ref.entry) : entryFromTotal(plan, ref.weight);
+
+/* the box asks for something other than the total, so both need saying */
+const derived = plan => plan.factor !== 1 || plan.base !== 0;
+/* what sits above the weight box; on its own it has to explain the whole model */
+function entryLabel(plan) {
+  const u = S.units;
+  if (plan.mode === "bar") return u + "/side";
+  if (plan.mode === "dbPair") return u + " each";
+  if (plan.mode === "body") return "+" + u;
+  return u;
+}
+/* the total, under the box it comes from. Never the arithmetic that got there. */
+const showsCalc = plan => derived(plan) || plan.mode === "body";
+function calcLine(plan, entry) {
+  const v = parseFloat(entry);
+  if (!Number.isFinite(v)) return plan.mode === "body" ? "bodyweight" : "";
+  const t = totalFor(plan, entry);
+  return plan.mode === "body" ? (v ? `<b>+${t}${S.units}</b>` : "bodyweight") : `= <b>${t}${S.units}</b>`;
+}
+/* a logged set quotes the weight that went in the book, not one recomputed from the box */
+function loggedLine(plan, st) {
+  const w = parseFloat(st.weight);
+  if (!Number.isFinite(w)) return "";
+  if (plan.mode === "body") return w ? `<b>+${round1(w)}${S.units}</b>` : "bodyweight";
+  return `= <b>${round1(w)}${S.units}</b>`;
+}
+/* how a stored set reads back. 0 is bodyweight; blank is a load nobody wrote down. */
+function setText(s, withUnit = true) {
+  const w = parseFloat(s.weight);
+  if (!Number.isFinite(w)) return `—×${s.reps}`;
+  if (w === 0) return `bw×${s.reps}`;
+  return `${round1(w)}${withUnit ? S.units : ""}×${s.reps}`;
+}
+/* last time's sets in the same terms the box will ask for, so nothing needs converting */
+function prevLine(plan, sets) {
+  const reps = sets.map(s => s.reps || "—").join(", ");
+  const w = sets.map(s => s.weight);
+  if (!w.every(v => v === w[0])) return sets.map(s => setText(s)).join("   ·   ");
+  const n = parseFloat(w[0]);
+  if (!Number.isFinite(n)) return reps + " reps";
+  if (n === 0) return "bodyweight · " + reps;
+  return `${round1(n)}${S.units}${derived(plan) ? " total" : ""} · ${reps}`;
+}
 
 
 /* ---------------- theme ---------------- */
@@ -610,14 +814,14 @@ function exHistory(exerciseId) {
     if (!e) return;
     const sets = (e.sets || []).filter(s => nWeight(s) > 0 || nReps(s) > 0);
     if (!sets.length) return;
-    let top = 0, topReps = 0, best = 0, vol = 0;
+    let top = 0, topReps = 0, best = 0, vol = 0, topSet = null;
     sets.forEach(s => {
       const w = nWeight(s), r = nReps(s);
       vol += w * r;
       const e1 = w ? w * (1 + r / 30) : r;
-      if (e1 >= best) { best = e1; top = w; topReps = r; }
+      if (e1 >= best) { best = e1; top = w; topReps = r; topSet = s; }
     });
-    out.push({ date: l.date, top, topReps, vol, sets });
+    out.push({ date: l.date, top, topReps, topSet, vol, sets });
   });
   return out;
 }
@@ -685,7 +889,7 @@ function startSession(dayIndex) {
     exercises: day.exercises.map(p => ({
       exerciseId: p.exerciseId, repMin: p.repMin || 8, repMax: p.repMax || 12, note: p.note || "",
       rpe: p.rpe || null, rest: p.rest || null,
-      sets: Array.from({ length: clampInt(p.sets, 1, 12, 3) }, () => ({ weight: "", reps: "", done: false }))
+      sets: Array.from({ length: clampInt(p.sets, 1, 12, 3) }, () => ({ weight: "", reps: "", entry: "", done: false }))
     }))
   };
   save(); openIdx = 0; render();
@@ -713,19 +917,17 @@ function readField(i, k, kind) {
 }
 function logSet(i, k) {
   const ex = S.session.exercises[i], st = ex.sets[k];
+  const plan = loadPlan(ex.exerciseId);
   const w = readField(i, k, "w"), r = readField(i, k, "r");
-  if (w != null) st.weight = w;
+  if (w != null) st.entry = w;
   if (r != null) st.reps = r;
-  if (!st.reps) {
-    const lp = lastPerf(ex.exerciseId);
-    const ref = lp && lp.sets[Math.min(k, lp.sets.length - 1)];
-    st.reps = ref ? ref.reps : String(ex.repMax);
-  }
-  if (!st.weight) {
-    const lp = lastPerf(ex.exerciseId);
-    const ref = lp && lp.sets[Math.min(k, lp.sets.length - 1)];
-    if (ref) st.weight = ref.weight;
-  }
+  const lp = lastPerf(ex.exerciseId);
+  const ref = lp && lp.sets[Math.min(k, lp.sets.length - 1)];
+  if (!st.reps) st.reps = ref ? ref.reps : String(ex.repMax);
+  if (!st.entry) st.entry = refEntry(plan, ref);
+  /* only bodyweight work reads a blank box as zero; elsewhere it is a load nobody wrote down */
+  const total = totalFor(plan, st.entry);
+  st.weight = total != null ? String(total) : plan.mode === "body" ? "0" : "";
   st.done = true;
   save();
   if (!ex.sets.some(x => !x.done)) {
@@ -748,9 +950,50 @@ const restSeconds = ex => {
 };
 const restLeft = () => (S.rest ? Math.max(0, Math.round((S.rest.endsAt - Date.now()) / 1000)) : 0);
 
+/* ---- bell ----
+   Synthesised rather than shipped as a file so the page stays one offline
+   document. Mobile browsers only allow audio from a gesture, so the context is
+   opened on the tap that starts the rest and kept warm from then on. */
+let audioCtx = null;
+function primeAudio() {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!audioCtx) audioCtx = new AC();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  } catch (e) { return null; }
+}
+/* inharmonic partials over a long exponential tail — a struck bell, not a beep */
+function strike(ac, at, gain) {
+  const out = ac.createGain();
+  out.gain.value = gain;
+  out.connect(ac.destination);
+  [[1, .5, 2.8], [2.01, .3, 2.1], [2.99, .17, 1.4], [4.21, .1, .85], [5.43, .055, .5]]
+    .forEach(([ratio, amp, decay]) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = "sine";
+      o.frequency.value = 587.33 * ratio;
+      g.gain.setValueAtTime(.0001, at);
+      g.gain.exponentialRampToValueAtTime(amp, at + .008);
+      g.gain.exponentialRampToValueAtTime(.0001, at + decay);
+      o.connect(g); g.connect(out);
+      o.start(at); o.stop(at + decay + .05);
+    });
+}
+function bell() {
+  if (S.sound === false) return;
+  const ac = primeAudio();
+  if (!ac) return;
+  const t0 = ac.currentTime + .03;
+  strike(ac, t0, .55);
+  strike(ac, t0 + .58, .38);
+}
+
 function startRest(ex) {
   const dur = restSeconds(ex);
   if (!dur) return;
+  primeAudio();
   S.rest = { dur, endsAt: Date.now() + dur * 1000 };
   save(); runRest();
 }
@@ -764,6 +1007,7 @@ function runRest() {
     if (!S.rest || !S.session) return stopRest();
     if (restLeft() <= 0) {
       stopRest();
+      bell();
       try { if (navigator.vibrate) navigator.vibrate([70, 60, 70]); } catch (e) {}
       paintDock();
       return;
@@ -782,7 +1026,10 @@ function nextUnfinished(from) {
 function finishSession() {
   const s = S.session; if (!s) return;
   const entries = s.exercises
-    .map(e => ({ exerciseId: e.exerciseId, sets: e.sets.filter(x => x.done).map(x => ({ weight: x.weight, reps: x.reps })) }))
+    .map(e => ({
+      exerciseId: e.exerciseId,
+      sets: e.sets.filter(x => x.done).map(x => ({ weight: x.weight, reps: x.reps, ...(x.entry ? { entry: x.entry } : {}) }))
+    }))
     .filter(e => e.sets.length);
   const planned = s.exercises.reduce((a, e) => a + e.sets.length, 0);
   const logged = entries.reduce((a, e) => a + e.sets.length, 0);
@@ -883,7 +1130,7 @@ function dayClosed(scr, mode) {
     log.entries.forEach(e => {
       const r = el("div", "sumrow");
       r.appendChild(el("b", null, exName(e.exerciseId)));
-      r.appendChild(el("span", null, e.sets.map(s => `${s.weight || "—"}×${s.reps}`).join("  ")));
+      r.appendChild(el("span", null, e.sets.map(s => setText(s, false)).join("  ")));
       scr.appendChild(r);
     });
   } else {
@@ -961,12 +1208,16 @@ function trendNode(exerciseId) {
   const last = h[h.length - 1];
   const prev = h.length > 1 ? h[h.length - 2] : null;
   const diff = prev ? val(last) - val(prev) : 0;
+  const plan = loadPlan(exerciseId);
+  const topEntry = refEntry(plan, last.topSet);
 
   const th = el("div", "th");
   const lcol = el("div");
   lcol.appendChild(Object.assign(el("span", "tk"), { textContent: "Last time · " + daysAgo(last.date) }));
   lcol.appendChild(Object.assign(el("span", "tv"), {
-    textContent: byWeight ? `${last.top}${S.units} × ${last.topReps}` : `${last.topReps} reps`
+    textContent: !byWeight ? `${last.topReps} reps`
+      : derived(plan) && topEntry ? `${topEntry}${entryLabel(plan)} × ${last.topReps}`
+      : `${last.top}${S.units} × ${last.topReps}`
   }));
   th.appendChild(lcol);
   if (prev) {
@@ -976,9 +1227,7 @@ function trendNode(exerciseId) {
   }
   box.appendChild(th);
 
-  box.appendChild(Object.assign(el("div", "sets-prev"), {
-    textContent: last.sets.map(s => `${s.weight || "—"}${s.weight ? S.units : ""}×${s.reps}`).join("   ·   ")
-  }));
+  box.appendChild(Object.assign(el("div", "sets-prev"), { textContent: prevLine(plan, last.sets) }));
 
   if (recent.length > 1) {
     box.appendChild(sparkNode(recent.map(val)));
@@ -992,7 +1241,45 @@ function trendNode(exerciseId) {
 }
 
 /* ---------------- cards ---------------- */
-let openIdx = null, namedIdx = null;
+let openIdx = null, namedIdx = null, barEdit = false;
+
+/* real bars come in a handful of weights, so picking beats typing */
+const BAR_PRESETS = { kg: [7.5, 10, 15, 20, 25], lb: [15, 25, 35, 45, 55] };
+
+/* the bar weight, stated where it is being applied and correctable without leaving the set */
+function barChip(plan) {
+  const b = el("button", "barchip" + (barEdit ? " on" : ""));
+  b.innerHTML = `<span>${esc(plan.base + S.units)} ${plan.bar === "ez" ? "EZ bar" : "bar"}</span>
+    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+  b.onclick = () => { barEdit = !barEdit; render(); };
+  return b;
+}
+function barEditor(plan) {
+  const w = el("div", "baredit");
+  w.appendChild(Object.assign(el("div", "bk"), { textContent: `${BAR_LABEL[plan.bar]} weighs` }));
+  const set = v => { S.bars[unitKey()][plan.bar] = v; barEdit = false; save(); render(); };
+  const seg = el("div", "seg");
+  BAR_PRESETS[unitKey()].forEach(v => {
+    const b = el("button", plan.base === v ? "on" : "", String(v));
+    b.onclick = () => set(v);
+    seg.appendChild(b);
+  });
+  w.appendChild(seg);
+  const inp = el("input");
+  inp.type = "number"; inp.step = "0.5"; inp.min = "0"; inp.max = "100"; inp.inputMode = "decimal";
+  inp.value = String(plan.base);
+  inp.onchange = () => {
+    const v = parseFloat(inp.value);
+    if (Number.isFinite(v) && v >= 0 && v <= 100) return set(round1(v));
+    render();
+  };
+  const other = el("label", "bother");
+  other.appendChild(Object.assign(el("span", null, "or"), {}));
+  other.appendChild(inp);
+  other.appendChild(el("span", null, S.units));
+  w.appendChild(other);
+  return w;
+}
 
 /* media and step-by-step text: hasaneyldrm/exercises-dataset, GIFs © Gym Visual */
 const MEDIA = JSON.parse(document.getElementById("data-media").textContent);
@@ -1121,6 +1408,7 @@ const morph = fn => { canMorph() ? document.startViewTransition(fn) : fn(); };
 /* the card element itself is what grows, so the browser morphs one box into the other */
 function toggleCard(i) {
   const next = openIdx === i ? null : i;
+  barEdit = false;
   const run = () => { openIdx = next; render(); };
   if (!canMorph()) return run();
   namedIdx = i;
@@ -1132,7 +1420,7 @@ function toggleCard(i) {
   };
   document.startViewTransition(run).finished.then(clear, clear);
 }
-function jumpCard(i) { morph(() => { openIdx = i; render(); }); }
+function jumpCard(i) { barEdit = false; morph(() => { openIdx = i; render(); }); }
 
 function exCard(x, i, live, isCur) {
   const n = el("button", "ex glass");
@@ -1172,6 +1460,9 @@ function expandedCard(i, list) {
   const e = EX[x.exerciseId] || { name: x.exerciseId, cues: [], muscle: "", equipment: "" };
   const setsN = live ? x.sets.length : clampInt(x.sets, 1, 12, 3);
   const doneN = live ? x.sets.filter(s => s.done).length : 0;
+  const plan = loadPlan(x.exerciseId);
+  /* the bar chip below states the equipment better than the tag would */
+  const showEquip = !(live && plan.mode === "bar");
 
   const n = el("div", "ex glass expanded");
   n.dataset.i = i;
@@ -1190,7 +1481,7 @@ function expandedCard(i, list) {
   head.appendChild(el("div", "xname", e.name));
 
   const tags = el("div", "xtags");
-  [`${i + 1} of ${list.length}`, e.muscle, e.equipment, `${setsN} × ${repLabel(x)}`,
+  [`${i + 1} of ${list.length}`, e.muscle, showEquip ? e.equipment : "", `${setsN} × ${repLabel(x)}`,
    x.rpe ? `RPE ${x.rpe}` : "", x.rest ? `rest ${x.rest} min` : ""]
     .filter(Boolean).forEach(t => tags.appendChild(el("span", null, t)));
   head.appendChild(tags);
@@ -1208,15 +1499,35 @@ function expandedCard(i, list) {
   if (x.note) body.appendChild(el("p", "xnote", x.note));
 
   if (live) {
-    body.appendChild(el("div", "shead", "Today"));
+    const label = entryLabel(plan), calcs = showsCalc(plan);
+    const th = el("div", "thead");
+    th.appendChild(el("div", "shead", "Today"));
+    if (plan.mode === "bar") th.appendChild(barChip(plan));
+    body.appendChild(th);
+    if (plan.mode === "bar" && barEdit) body.appendChild(barEditor(plan));
     const lp = lastPerf(x.exerciseId);
     x.sets.forEach((st, k) => {
       const ref = lp && lp.sets[Math.min(k, lp.sets.length - 1)];
-      const r = el("div", "setrow" + (st.done ? " done" : k === doneN ? " next" : ""));
+      const hint = refEntry(plan, ref);
+      const active = k === doneN && !st.done;
+      const shows = calcs && (active || st.done);
+      const r = el("div", "setrow" + (st.done ? " done" : active ? " next" : ""));
       r.innerHTML = `<span class="setn">${k + 1}</span>
-        <span class="fld"><label>${esc(S.units)}</label><input id="w-${i}-${k}" inputmode="decimal" enterkeyhint="done" value="${esc(st.weight)}" placeholder="${ref && ref.weight ? esc(ref.weight) : "—"}"></span>
+        <span class="fld"><label>${esc(label)}</label><input id="w-${i}-${k}" inputmode="decimal" enterkeyhint="done" value="${esc(st.entry || "")}" placeholder="${hint ? esc(hint) : "—"}"></span>
         <span class="fld"><label>reps</label><input id="r-${i}-${k}" inputmode="numeric" enterkeyhint="done" value="${esc(st.reps)}" placeholder="${ref ? esc(ref.reps) : esc(String(x.repMax || 12))}"></span>
-        <button class="tick" aria-label="toggle set"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>`;
+        <button class="tick" aria-label="toggle set"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
+        ${shows ? `<span class="setcalc" id="c-${i}-${k}"></span>` : ""}`;
+      if (shows) {
+        const calc = r.querySelector(`#c-${i}-${k}`);
+        if (st.done) calc.innerHTML = loggedLine(plan, st);
+        else {
+          const wIn = r.querySelector(`#w-${i}-${k}`);
+          /* only ever states a total for a number that was actually typed */
+          const paint = () => { calc.innerHTML = calcLine(plan, wIn.value.trim()); };
+          wIn.oninput = paint;
+          paint();
+        }
+      }
       r.querySelector(".tick").onclick = () => {
         if (st.done) { st.done = false; save(); render(); } else logSet(i, k);
       };
@@ -1338,7 +1649,7 @@ function setHandle(show) {
 /* ---------------- sheets ---------------- */
 let sheetStack = [];
 function openSheet(kind, arg) {
-  const views = { menu: vMenu, learn: vLearn, chapter: vChapter, progress: vProgress, settings: vSettings, extra: vExtra, data: vData, end: vEnd, guide: vGuide, howto: vHowTo };
+  const views = { menu: vMenu, learn: vLearn, chapter: vChapter, progress: vProgress, settings: vSettings, extra: vExtra, data: vData, end: vEnd, guide: vGuide, howto: vHowTo, lift: vLift };
   const v = views[kind]; if (!v) return;
   sheetStack.push({ kind, arg });
   const { title, node } = v(arg);
@@ -1387,7 +1698,7 @@ function vMenu() {
     w.appendChild(b);
   });
   if (S.session) {
-    const dz = el("button", "mcard danger");
+    const dz = el("button", "mcard bad");
     dz.innerHTML = `<b>End this workout</b><span>Save what you have done so far, or throw it away</span>`;
     dz.onclick = () => { sheetStack = []; openSheet("end"); };
     w.appendChild(dz);
@@ -1491,7 +1802,7 @@ function vGuide() {
     w.appendChild(a);
   }
 
-  const d = el("button", "mcard danger");
+  const d = el("button", "mcard bad");
   d.innerHTML = `<b>Discard</b><span>Drop the session without logging anything</span>`;
   d.onclick = () => {
     if (!done || confirm("Discard this workout? Nothing will be logged.")) { closeSheet(); discardSession(); }
@@ -1612,17 +1923,23 @@ function vExtra() {
   return { title: "Supplemental", node: w };
 }
 
-/* ---------- import / export ---------- */
-const FORMAT = "recomp-workout/v1";
+/* ---------- import / export ----------
+   The format is versioned and every older version stays readable. A v1 file has
+   no per-side figures and no bar weights; both are worked back out of the totals
+   when they are shown, so an export from an older build lands here up to date. */
+const FORMAT = "recomp-workout/v2";
+const READABLE = ["recomp-workout/v1", "recomp-workout/v2"];
 
 /* JSON has no comments, so the shape travels inside the file itself */
 const SCHEMA = {
   "//": "This block IS the documentation. Edit `program`, `settings`, `customExercises` or `history`, keep `_format`, and import the file back into the app.",
-  "_format": "string — must stay \"recomp-workout/v1\"",
+  "_format": "string — \"recomp-workout/v2\". Files written by v1 still import; their sets are upgraded automatically.",
   "settings": {
     "name": "string — who the app greets",
     "units": "\"kg\" | \"lb\"",
-    "queueIndex": "integer — which entry of program.days comes next; it wraps around"
+    "queueIndex": "integer — which entry of program.days comes next; it wraps around",
+    "sound": "boolean, optional (v2) — ring a bell when the rest timer runs out",
+    "bars": "object, optional (v2) — { kg: { olympic, ez, smith, fixed }, lb: {…} }. What an empty bar weighs at your gym. Omitted keys fall back to 20/10/15/15 kg and 45/25/35/35 lb."
   },
   "program": {
     "name": "string — shown as the kicker on the home screen",
@@ -1639,7 +1956,8 @@ const SCHEMA = {
     "days[].exercises[].rest": "string, optional — rest in minutes, e.g. \"2-3\"",
     "days[].exercises[].note": "string, optional — a coaching note shown under the exercise name"
   },
-  "customExercises": "array, optional — [{ id, name, muscle, equipment, type: \"compound\" | \"isolation\", cues: [string] }]. Use this to add movements the built-in library does not have.",
+  "customExercises": "array, optional — [{ id, name, muscle, equipment, type: \"compound\" | \"isolation\", cues: [string], load }]. Use this to add movements the built-in library does not have.",
+  "customExercises[].load": "object, optional (v2) — { mode, bar }. mode is \"bar\" (you enter plates per side, the app doubles them and adds the bar), \"dbPair\" (you enter one dumbbell, it is doubled), \"dbOne\" (single-arm, one dumbbell is the whole load), \"stack\" (machine or cable, read straight off the pin) or \"body\" (bodyweight, blank counts as 0). bar is \"olympic\" | \"ez\" | \"smith\" | \"fixed\" and only applies to mode \"bar\". Leave `load` out and it is inferred from `equipment`.",
   "history": "array of finished sessions, oldest first. Safe to leave untouched.",
   "history[]": {
     "id": "number — unique, used to de-duplicate on merge",
@@ -1647,7 +1965,9 @@ const SCHEMA = {
     "focus": "string — the day's focus at the time",
     "durationMin": "integer, optional",
     "partial": "boolean, optional — true when the session was ended early",
-    "entries": "[{ exerciseId: string, sets: [{ weight: string, reps: string }] }] — weight is in settings.units, \"\" means bodyweight"
+    "entries": "[{ exerciseId: string, sets: [{ weight: string, reps: string, entry: string }] }]",
+    "entries[].sets[].weight": "total load moved, in settings.units. \"0\" means bodyweight.",
+    "entries[].sets[].entry": "string, optional (v2) — what was actually loaded: plates on one side, or one dumbbell. Absent on v1 files, where it is worked back out of `weight`."
   }
 };
 
@@ -1659,7 +1979,9 @@ function buildExport() {
     _structure: SCHEMA,
     exportedAt: new Date().toISOString(),
     settings: {
-      name: S.name, units: S.units, queueIndex: S.queueIndex
+      name: S.name, units: S.units, queueIndex: S.queueIndex,
+      sound: S.sound !== false,
+      bars: { kg: { ...S.bars.kg }, lb: { ...S.bars.lb } }
     },
     program: {
       name: p.name,
@@ -1680,27 +2002,44 @@ function buildExport() {
     customExercises: S.customExercises,
     history: S.logs,
     _reference: {
-      exercises: Object.values(EX).map(e => `${e.id} — ${e.name} (${e.muscle || "?"}, ${e.equipment || "?"}, ${e.type || "?"})`),
+      exercises: Object.values(EX).map(e => `${e.id} — ${e.name} (${e.muscle || "?"}, ${e.equipment || "?"}, ${e.type || "?"}, loads as ${loadPlan(e.id).mode})`),
       bookSplits: SPLITS.map(s => `${s.name} — ${s.training_days} training days: ${s.days.map(d => d.focus).join(" / ")}`)
     }
   };
 }
 const exportText = () => JSON.stringify(buildExport(), null, 2);
 
+function parseLoad(l) {
+  if (!l || typeof l !== "object" || !LOAD_MODES.includes(l.mode)) return null;
+  return { mode: l.mode, ...(l.mode === "bar" && BAR_KINDS.includes(l.bar) ? { bar: l.bar } : {}) };
+}
+/* v1 sets carry a total and nothing else; the per-side figure stays absent and is
+   recovered from the total at display time, using whatever bar weights are set then */
+function parseSet(s) {
+  const entry = numOrStr(s && s.entry);
+  return { weight: numOrStr(s && s.weight), reps: numOrStr(s && s.reps), ...(entry ? { entry } : {}) };
+}
+
 function parseImport(text) {
   const raw = JSON.parse(text);
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("The file must be a JSON object.");
   const warn = [], out = { program: null, settings: null, history: null, custom: null, warn };
 
-  if (raw._format && raw._format !== FORMAT) warn.push(`Unknown _format "${str(raw._format, 40)}" — importing anyway.`);
+  const fmt = str(raw._format, 40);
+  if (fmt && !READABLE.includes(fmt)) warn.push(`Unknown _format "${fmt}" — importing anyway.`);
+  else if (fmt && fmt !== FORMAT) warn.push(`Written by an older version (${fmt}). It will be brought up to date on import; per-side numbers are worked back out of the totals in your history.`);
 
   if (Array.isArray(raw.customExercises)) {
-    out.custom = raw.customExercises.slice(0, 120).map(c => ({
-      id: str(c && c.id, 60), name: str(c && c.name, 80) || str(c && c.id, 60),
-      muscle: str(c && c.muscle, 40), equipment: str(c && c.equipment, 40),
-      type: c && c.type === "isolation" ? "isolation" : "compound",
-      cues: Array.isArray(c && c.cues) ? c.cues.slice(0, 8).map(t => str(t, 220)).filter(Boolean) : []
-    })).filter(c => c.id);
+    out.custom = raw.customExercises.slice(0, 120).map(c => {
+      const load = parseLoad(c && c.load);
+      return {
+        id: str(c && c.id, 60), name: str(c && c.name, 80) || str(c && c.id, 60),
+        muscle: str(c && c.muscle, 40), equipment: str(c && c.equipment, 40),
+        type: c && c.type === "isolation" ? "isolation" : "compound",
+        cues: Array.isArray(c && c.cues) ? c.cues.slice(0, 8).map(t => str(t, 220)).filter(Boolean) : [],
+        ...(load ? { load } : {})
+      };
+    }).filter(c => c.id);
   }
   const known = new Set([...Object.keys(BASE_EX), ...(out.custom || []).map(c => c.id)]);
 
@@ -1742,6 +2081,15 @@ function parseImport(text) {
     if (str(s.name, 24)) out.settings.name = str(s.name, 24);
     if (s.units === "kg" || s.units === "lb") out.settings.units = s.units;
     if (Number.isFinite(Number(s.queueIndex))) out.settings.queueIndex = clampInt(s.queueIndex, 0, 9999, 0);
+    if (typeof s.sound === "boolean") out.settings.sound = s.sound;
+    if (s.bars && typeof s.bars === "object") {
+      const bars = { kg: {}, lb: {} };
+      ["kg", "lb"].forEach(u => BAR_KINDS.forEach(k => {
+        const v = Number((s.bars[u] || {})[k]);
+        if (Number.isFinite(v) && v >= 0 && v <= 100) bars[u][k] = round1(v);
+      }));
+      out.settings.bars = bars;
+    }
   }
 
   if (Array.isArray(raw.history)) {
@@ -1755,10 +2103,7 @@ function parseImport(text) {
         ...(l && l.partial ? { partial: true } : {}),
         entries: (Array.isArray(l && l.entries) ? l.entries : []).slice(0, 40).map(e => ({
           exerciseId: str(e && e.exerciseId, 60),
-          sets: (Array.isArray(e && e.sets) ? e.sets : []).slice(0, 20).map(s => ({
-            weight: numOrStr(s && s.weight),
-            reps: numOrStr(s && s.reps)
-          }))
+          sets: (Array.isArray(e && e.sets) ? e.sets : []).slice(0, 20).map(parseSet)
         })).filter(e => e.exerciseId && e.sets.length)
       };
     }).filter(l => l.entries.length);
@@ -1911,48 +2256,212 @@ function vData() {
 }
 
 /* ---------- progress ---------- */
+/* ---------- progress ---------- */
+const logVol = l => l.entries.reduce((a, e) => a + e.sets.reduce((b, s) => b + nWeight(s) * nReps(s), 0), 0);
+const logSets = l => l.entries.reduce((a, e) => a + e.sets.length, 0);
+/* Epley, the same estimate the per-exercise trend ranks its top set by */
+const e1rm = (w, r) => (w > 0 && r > 0 ? w * (1 + r / 30) : 0);
+const kFmt = n => (n >= 10000 ? Math.round(n / 1000) + "k" : n >= 1000 ? (n / 1000).toFixed(1) + "k" : String(Math.round(n)));
+const dmy = d => d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
+
+/* Monday-anchored buckets with the empty weeks kept, so a lay-off reads as a gap */
+function weekBuckets(n) {
+  const end = mondayOf(new Date()), out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const from = new Date(end); from.setDate(from.getDate() - i * 7);
+    const to = new Date(from); to.setDate(to.getDate() + 7);
+    const logs = S.logs.filter(l => { const d = new Date(l.date); return d >= from && d < to; });
+    out.push({ from, to, logs, vol: logs.reduce((a, l) => a + logVol(l), 0) });
+  }
+  return out;
+}
+
+function volChart() {
+  const weeks = weekBuckets(12);
+  const max = Math.max(1, ...weeks.map(x => x.vol));
+  const run = weeks.filter(x => x.vol > 0);
+  const avg = run.length ? run.reduce((a, x) => a + x.vol, 0) / run.length : 0;
+
+  const box = el("div");
+  const bars = el("div", "wbars");
+  weeks.forEach((x, i) => {
+    const b = el("div", "wb" + (x.vol ? (i === weeks.length - 1 ? " now" : "") : " zero"));
+    const f = el("i");
+    f.style.height = x.vol ? Math.max(2, (x.vol / max) * 100) + "%" : "2px";
+    b.title = `${dmy(x.from)} — ${kFmt(x.vol)} ${S.units}`;
+    b.appendChild(f); bars.appendChild(b);
+  });
+  if (avg) {
+    const line = el("div", "wavg");
+    line.style.bottom = (avg / max) * 100 + "%";
+    bars.appendChild(line);
+  }
+  box.appendChild(bars);
+  const foot = el("div", "wfoot");
+  foot.appendChild(el("span", null, dmy(weeks[0].from)));
+  foot.appendChild(el("span", null, `avg ${kFmt(avg)} · peak ${kFmt(max)} ${S.units}`));
+  foot.appendChild(el("span", null, "this week"));
+  box.appendChild(foot);
+  return box;
+}
+
+/* weighted sets per region over a rolling week, against the range the book prescribes */
+function muscleChart() {
+  const since = Date.now() - 7 * 864e5;
+  const recent = S.logs.filter(l => new Date(l.date).getTime() >= since);
+  const load = muscleLoad(recent.flatMap(l => l.entries.map(e => ({ exerciseId: e.exerciseId, sets: e.sets.length }))));
+  const g = BOOK.training.guidelines.volume.sets_per_bodypart_per_week;
+  const rows = Object.keys(REGION_LABEL)
+    .map(r => [r, load[r] || 0])
+    .filter(([, v]) => v > 0)
+    .sort((a, b) => b[1] - a[1]);
+  if (!rows.length) return null;
+
+  const scale = Math.max(g.max * 1.2, ...rows.map(r => r[1]));
+  const box = el("div");
+  rows.forEach(([r, v]) => {
+    const row = el("div", "mrow" + (v < g.min ? " low" : v > g.max ? " over" : ""));
+    row.appendChild(el("span", "mn", REGION_LABEL[r]));
+    const track = el("div", "mt");
+    const band = el("span", "band");
+    band.style.left = (g.min / scale) * 100 + "%";
+    band.style.width = ((g.max - g.min) / scale) * 100 + "%";
+    const fill = el("span", "fill");
+    fill.style.width = Math.min(100, (v / scale) * 100) + "%";
+    track.appendChild(band); track.appendChild(fill);
+    row.appendChild(track);
+    row.appendChild(el("span", "mv", String(Math.round(v * 10) / 10)));
+    box.appendChild(row);
+  });
+  return box;
+}
+
+/* every movement in the log, newest-trained first */
+function liftRows() {
+  const ids = [...new Set(S.logs.flatMap(l => l.entries.map(e => e.exerciseId)))];
+  return ids.map(id => {
+    const h = exHistory(id);
+    if (!h.length) return null;
+    const byWeight = h.some(p => p.top > 0);
+    const val = p => (byWeight ? p.top : p.topReps);
+    return { id, h, byWeight, val, first: val(h[0]), last: val(h[h.length - 1]), date: h[h.length - 1].date };
+  }).filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+function personalBests() {
+  return liftRows().map(({ id, h, byWeight }) => {
+    let best = null;
+    h.forEach(p => p.sets.forEach(s => {
+      const w = nWeight(s), r = nReps(s);
+      const score = byWeight ? e1rm(w, r) : r;
+      if (!best || score > best.score) best = { score, w, r, date: p.date };
+    }));
+    return best && { id, byWeight, ...best };
+  }).filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+function consistencyGrid() {
+  const weeks = weekBuckets(10);
+  const trained = new Set(S.logs.map(l => dayKey(new Date(l.date))));
+  const today = dayKey();
+  const g = el("div", "cgrid");
+  ["M", "T", "W", "T", "F", "S", "S"].forEach(d => g.appendChild(el("span", "ch", d)));
+  g.appendChild(el("span", "ch", ""));
+  weeks.forEach(wk => {
+    let n = 0;
+    for (let d = 0; d < 7; d++) {
+      const day = new Date(wk.from); day.setDate(day.getDate() + d);
+      const k = dayKey(day), on = trained.has(k);
+      if (on) n++;
+      const cell = el("i", (on ? "on" : "") + (k === today ? " now" : ""));
+      cell.title = k;
+      g.appendChild(cell);
+    }
+    g.appendChild(el("span", "cn", n ? String(n) : "·"));
+  });
+  return { node: g, weeks };
+}
+
 function vProgress() {
   const w = el("div");
   if (!S.logs.length) {
     w.appendChild(el("div", "empty", "No sessions yet. Finish your first workout and it will show up here."));
     return { title: "Progress", node: w };
   }
-  const vol = l => l.entries.reduce((a, e) => a + e.sets.reduce((b, s) => b + (parseFloat(s.weight) || 0) * (parseInt(s.reps) || 0), 0), 0);
-  const sets = l => l.entries.reduce((a, e) => a + e.sets.length, 0);
+  const sec = (t, sub) => {
+    w.appendChild(el("div", "shead", t));
+    if (sub) w.appendChild(Object.assign(el("div", "psub"), { textContent: sub }));
+  };
 
   const st = el("div", "stat");
   st.innerHTML = `<div><b>${S.logs.length}</b><span>sessions</span></div>
-    <div><b>${S.logs.reduce((a, l) => a + sets(l), 0)}</b><span>sets</span></div>
-    <div><b>${Math.round(S.logs.reduce((a, l) => a + vol(l), 0) / 1000)}k</b><span>volume ${esc(S.units)}</span></div>`;
+    <div><b>${S.logs.reduce((a, l) => a + logSets(l), 0)}</b><span>sets</span></div>
+    <div><b>${kFmt(S.logs.reduce((a, l) => a + logVol(l), 0))}</b><span>${esc(S.units)} moved</span></div>`;
   w.appendChild(st);
 
-  const recent = S.logs.slice(-14);
-  const max = Math.max(1, ...recent.map(vol));
-  const bw = 100 / recent.length;
-  let bars = "";
-  recent.forEach((l, i) => {
-    const h = Math.max(3, (vol(l) / max) * 78);
-    bars += `<rect x="${(i * bw + bw * .18).toFixed(2)}" y="${(84 - h).toFixed(2)}" width="${(bw * .64).toFixed(2)}" height="${h.toFixed(2)}" rx="1.4" fill="var(--accent)" opacity="${.45 + .55 * (i / recent.length)}"/>`;
+  const lifts = liftRows();
+  sec("Strength per lift", "Heaviest working set each session, from the first time you logged the movement to the most recent. Tap for the full history.");
+  lifts.forEach(({ id, h, byWeight, val, first, last }) => {
+    const b = el("button", "liftrow");
+    const d = last - first;
+    const u = byWeight ? S.units : " reps";
+    const left = el("span");
+    left.appendChild(el("span", "ln", exName(id)));
+    left.appendChild(Object.assign(el("span", "lm"), {
+      innerHTML: h.length < 2
+        ? `<b>${first}${esc(u)}</b> · first session`
+        : d === 0
+          ? `<b>${last}${esc(u)}</b> · unchanged · ${h.length} sessions`
+          : `${first} → <b>${last}${esc(u)}</b> <em class="${d > 0 ? "up" : "down"}">${d > 0 ? "+" : ""}${Math.round(d * 10) / 10}</em> · ${h.length} sessions`
+    }));
+    b.appendChild(left);
+    if (h.length > 1) b.appendChild(sparkNode(h.map(val)));
+    b.onclick = () => openSheet("lift", id);
+    w.appendChild(b);
   });
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 100 92"); svg.setAttribute("width", "100%"); svg.setAttribute("height", "150");
-  svg.innerHTML = bars + `<line x1="0" y1="85" x2="100" y2="85" stroke="var(--line)" stroke-width=".5"/>`;
-  w.appendChild(el("h3", null, ""));
-  w.appendChild(Object.assign(el("div", "note"), { textContent: "Volume per session (weight × reps), most recent on the right" }));
-  w.appendChild(svg);
 
-  w.appendChild(Object.assign(el("div", "note"), { textContent: "Sessions" }));
+  const mc = muscleChart();
+  if (mc) {
+    const g = BOOK.training.guidelines.volume.sets_per_bodypart_per_week;
+    sec("Sets per muscle · last 7 days", `The shaded band is the ${g.min}–${g.max} working sets per muscle per week the book targets. Grey is under it, red is over. Secondary muscles count half a set.`);
+    w.appendChild(mc);
+  }
+
+  sec("Weekly volume", `Weight × reps for every logged set, bucketed by week. The dashed line is your average across the weeks you trained.`);
+  w.appendChild(volChart());
+
+  const cg = consistencyGrid();
+  const hit = cg.weeks.filter(x => x.logs.length >= 3).length;
+  sec("Consistency", `Last ${cg.weeks.length} weeks, Monday to Sunday. ${hit} of them hit three or more sessions.`);
+  w.appendChild(cg.node);
+
+  const pbs = personalBests();
+  if (pbs.length) {
+    sec("Personal bests", "Your single best set on each movement, most recent first. Weighted lifts are ranked by estimated one-rep max.");
+    pbs.forEach(p => {
+      const r = el("div", "pbrow");
+      r.appendChild(el("span", "pn", exName(p.id)));
+      r.appendChild(Object.assign(el("span", "pv"), {
+        innerHTML: p.byWeight
+          ? `<b>${round1(p.w)}${esc(S.units)} × ${p.r}</b> · ${esc(dmy(new Date(p.date)))}`
+          : `<b>${p.r} reps</b> · ${esc(dmy(new Date(p.date)))}`
+      }));
+      w.appendChild(r);
+    });
+  }
+
+  sec("Sessions", null);
   [...S.logs].reverse().forEach(l => {
     const b = el("button", "sess");
     const d = new Date(l.date);
     b.innerHTML = `<span class="f">${esc(l.focus)}${l.partial ? ' <span class="d">· cut short</span>' : ""}</span>
-      <span class="d">${sets(l)} set${sets(l) === 1 ? "" : "s"} · ${Math.round(vol(l))}${esc(S.units)}</span>
-      <span class="d">${d.toLocaleDateString(undefined, { day: "numeric", month: "short" })}</span>`;
+      <span class="d">${logSets(l)} set${logSets(l) === 1 ? "" : "s"} · ${kFmt(logVol(l))} ${esc(S.units)}</span>
+      <span class="d">${esc(dmy(d))}</span>`;
     b.onclick = () => {
       const box = el("div", "read");
       l.entries.forEach(e => {
         box.appendChild(el("h3", null, exName(e.exerciseId)));
-        box.appendChild(el("p", null, e.sets.map(s => `${s.weight || "—"}${s.weight ? S.units : ""} × ${s.reps}`).join("   ·   ")));
+        box.appendChild(el("p", null, e.sets.map(s => setText(s)).join("   ·   ")));
       });
       if (l.durationMin) box.appendChild(el("p", null, `${l.durationMin} minutes${l.partial ? " · ended early" : ""}`));
       $("#sheetTitle").textContent = l.focus + " · " + d.toLocaleDateString();
@@ -1970,6 +2479,26 @@ function vProgress() {
   dl.appendChild(b);
   w.appendChild(dl);
   return { title: "Progress", node: w };
+}
+
+/* one movement, every session of it */
+function vLift(exerciseId) {
+  const w = el("div");
+  const back = el("button", "back", "← Progress");
+  back.onclick = () => { sheetStack = []; openSheet("progress"); };
+  w.appendChild(back);
+  w.appendChild(trendNode(exerciseId));
+
+  const h = exHistory(exerciseId);
+  const plan = loadPlan(exerciseId);
+  w.appendChild(el("div", "shead", "Every session"));
+  [...h].reverse().forEach(p => {
+    const r = el("div", "pbrow");
+    r.appendChild(el("span", "pn", dmy(new Date(p.date))));
+    r.appendChild(Object.assign(el("span", "pv"), { textContent: prevLine(plan, p.sets) }));
+    w.appendChild(r);
+  });
+  return { title: exName(exerciseId), node: w };
 }
 
 /* ---------- settings ---------- */
@@ -2007,6 +2536,38 @@ function vSettings() {
     th.appendChild(b);
   });
   row("Theme", th);
+
+  const snd = el("div", "seg");
+  const soundOn = S.sound !== false;
+  [[true, "On"], [false, "Off"]].forEach(([v, t]) => {
+    const b = el("button", soundOn === v ? "on" : "", t);
+    /* tapping On doubles as the preview and as the gesture that unlocks audio */
+    b.onclick = () => { S.sound = v; save(); if (v) bell(); openSheet("settings"); };
+    snd.appendChild(b);
+  });
+  row("Rest bell", snd);
+
+  w.appendChild(el("div", "shead", "Bar weights"));
+  w.appendChild(Object.assign(el("div", "note"), {
+    textContent: `On barbell lifts you enter the plates on one side and the app adds the other side plus the bar. Correct these to whatever your gym actually racks — they are stored per unit, so the ${S.units} figures are the ones in play.`
+  }));
+  BAR_KINDS.forEach(kind => {
+    const inp = el("input");
+    inp.type = "number"; inp.inputMode = "decimal"; inp.step = "0.5"; inp.min = "0";
+    inp.value = String(barWeight(kind));
+    inp.onchange = () => {
+      const v = parseFloat(inp.value);
+      const u = unitKey();
+      if (Number.isFinite(v) && v >= 0 && v <= 100) S.bars[u][kind] = round1(v);
+      else delete S.bars[u][kind];
+      save(); inp.value = String(barWeight(kind)); render();
+    };
+    const lab = el("label", null, BAR_LABEL[kind]);
+    lab.appendChild(Object.assign(el("span", "sub"), {
+      textContent: kind === "ez" ? "curls and skullcrushers" : kind === "olympic" ? "squat, bench, deadlift, press" : `default ${BAR_DEFAULTS[unitKey()][kind]}${S.units}`
+    }));
+    const r = el("div", "row"); r.appendChild(lab); r.appendChild(inp); w.appendChild(r);
+  });
 
   w.appendChild(el("div", "shead", "Programme"));
   const p = activeProgram();
