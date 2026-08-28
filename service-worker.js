@@ -1,4 +1,4 @@
-const CACHE_NAME = 'recomp-cache-v2';
+const CACHE_NAME = 'recomp-cache-v3';
 const ASSETS = [
   './',
   './index.html',
