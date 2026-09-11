@@ -1,0 +1,2883 @@
+{
+  "_format": "recomp-workout/v2",
+  "_comment": "Recomp workout file. `_structure` describes every field — hand this whole file to an assistant, ask it to rewrite `program`, then import the result back into the app.",
+  "_structure": {
+    "//": "This block IS the documentation. Edit `program`, `settings`, `customExercises` or `history`, keep `_format`, and import the file back into the app.",
+    "_format": "string — \"recomp-workout/v2\". Files written by v1 still import; their sets are upgraded automatically.",
+    "settings": {
+      "name": "string — who the app greets",
+      "units": "\"kg\" | \"lb\"",
+      "queueIndex": "integer — which entry of program.days comes next; it wraps around",
+      "sound": "boolean, optional (v2) — ring a bell when the rest timer runs out",
+      "bars": "object, optional (v2) — { kg: { olympic, ez, smith, fixed }, lb: {…} }. What an empty bar weighs at your gym. Omitted keys fall back to 20/10/15/15 kg and 45/25/35/35 lb."
+    },
+    "program": {
+      "name": "string — shown as the kicker on the home screen",
+      "days": "array, walked in order and then repeated from the top",
+      "days[].focus": "string — e.g. \"Full Body #1\", \"Push\", \"Rest\". Any focus containing the word \"rest\" renders as a rest day",
+      "days[].block": "string, optional — training block this day belongs to",
+      "days[].week": "integer, optional — week number within the programme",
+      "days[].exercises": "array — leave it empty ([]) on rest days",
+      "days[].exercises[].exerciseId": "string — an id from _reference.exercises, or one you define in customExercises",
+      "days[].exercises[].sets": "integer 1-12",
+      "days[].exercises[].repMin": "integer 1-100 — bottom of the target rep range",
+      "days[].exercises[].repMax": "integer 1-100 — top of the range; set equal to repMin for an exact target",
+      "days[].exercises[].rpe": "number 5-10, optional — target effort for the set",
+      "days[].exercises[].rest": "string, optional — rest in minutes, e.g. \"2-3\"",
+      "days[].exercises[].note": "string, optional — a coaching note shown under the exercise name"
+    },
+    "customExercises": "array, optional — [{ id, name, muscle, equipment, type: \"compound\" | \"isolation\", cues: [string], load }]. Use this to add movements the built-in library does not have.",
+    "customExercises[].load": "object, optional (v2) — { mode, bar }. mode is \"bar\" (you enter plates per side, the app doubles them and adds the bar), \"dbPair\" (you enter one dumbbell, it is doubled), \"dbOne\" (single-arm, one dumbbell is the whole load), \"stack\" (machine or cable, read straight off the pin) or \"body\" (bodyweight, blank counts as 0). bar is \"olympic\" | \"ez\" | \"smith\" | \"fixed\" and only applies to mode \"bar\". Leave `load` out and it is inferred from `equipment`.",
+    "history": "array of finished sessions, oldest first. Safe to leave untouched.",
+    "history[]": {
+      "id": "number — unique, used to de-duplicate on merge",
+      "date": "ISO 8601 timestamp",
+      "focus": "string — the day's focus at the time",
+      "durationMin": "integer, optional",
+      "partial": "boolean, optional — true when the session was ended early",
+      "entries": "[{ exerciseId: string, sets: [{ weight: string, reps: string, entry: string }] }]",
+      "entries[].sets[].weight": "total load moved, in settings.units. \"0\" means bodyweight.",
+      "entries[].sets[].entry": "string, optional (v2) — what was actually loaded: plates on one side, or one dumbbell. Absent on v1 files, where it is worked back out of `weight`."
+    }
+  },
+  "exportedAt": "2026-09-11T08:46:48.475Z",
+  "settings": {
+    "name": "Rahul",
+    "units": "kg",
+    "queueIndex": 18,
+    "sound": true,
+    "bars": {
+      "kg": {
+        "olympic": 20
+      },
+      "lb": {}
+    }
+  },
+  "program": {
+    "name": "Fundamentals · Full Body",
+    "source": "book",
+    "days": [
+      {
+        "focus": "Full Body #1",
+        "block": "Strength Base",
+        "week": 1,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 6,
+            "repMax": 6,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "lat-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows straight out to your sides, use a 1.5x shoulder width grip"
+          },
+          {
+            "exerciseId": "romanian-deadlift",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Maintain a neutral lower back, set your hips back, don't allow your spine to round"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          },
+          {
+            "exerciseId": "db-supinated-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Strength Base",
+        "week": 1,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "ohp",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Squeeze your glutes to keep your torso upright, clear your head out of the way, press up and slightly back"
+          },
+          {
+            "exerciseId": "chest-supported-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapulae during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your quads to make the weight move"
+          },
+          {
+            "exerciseId": "cable-fly",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted, pull your inner elbows together (not your hands)"
+          },
+          {
+            "exerciseId": "crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Focus on flexing your spine, don't yank your head with your arms"
+          },
+          {
+            "exerciseId": "skullcrusher",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your elbows in line with the top of your head, don't let your upper arm move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Strength Base",
+        "week": 1,
+        "exercises": [
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "incline-db-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, control the stretch at the bottom"
+          },
+          {
+            "exerciseId": "reverse-grip-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows down and back, keep the chest tall"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "lateral-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tilt the dumbbell such that your pinky comes up first"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Strength Base",
+        "week": 2,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 6,
+            "repMax": 6,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "lat-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows straight out to your sides, use a 1.5x shoulder width grip"
+          },
+          {
+            "exerciseId": "romanian-deadlift",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Maintain a neutral lower back, set your hips back, don't allow your spine to round"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          },
+          {
+            "exerciseId": "db-supinated-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Strength Base",
+        "week": 2,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "ohp",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Squeeze your glutes to keep your torso upright, clear your head out of the way, press up and slightly back"
+          },
+          {
+            "exerciseId": "chest-supported-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapulae during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your quads to make the weight move"
+          },
+          {
+            "exerciseId": "cable-fly",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted, pull your inner elbows together (not your hands)"
+          },
+          {
+            "exerciseId": "crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Focus on flexing your spine, don't yank your head with your arms"
+          },
+          {
+            "exerciseId": "skullcrusher",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your elbows in line with the top of your head, don't let your upper arm move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Strength Base",
+        "week": 2,
+        "exercises": [
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "incline-db-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, control the stretch at the bottom"
+          },
+          {
+            "exerciseId": "reverse-grip-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows down and back, keep the chest tall"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "lateral-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tilt the dumbbell such that your pinky comes up first"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Strength Base",
+        "week": 3,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 6,
+            "repMax": 6,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "lat-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows straight out to your sides, use a 1.5x shoulder width grip"
+          },
+          {
+            "exerciseId": "romanian-deadlift",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Maintain a neutral lower back, set your hips back, don't allow your spine to round"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          },
+          {
+            "exerciseId": "db-supinated-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Strength Base",
+        "week": 3,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "ohp",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Squeeze your glutes to keep your torso upright, clear your head out of the way, press up and slightly back"
+          },
+          {
+            "exerciseId": "chest-supported-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapulae during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your quads to make the weight move"
+          },
+          {
+            "exerciseId": "cable-fly",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted, pull your inner elbows together (not your hands)"
+          },
+          {
+            "exerciseId": "crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Focus on flexing your spine, don't yank your head with your arms"
+          },
+          {
+            "exerciseId": "skullcrusher",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your elbows in line with the top of your head, don't let your upper arm move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Strength Base",
+        "week": 3,
+        "exercises": [
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "incline-db-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, control the stretch at the bottom"
+          },
+          {
+            "exerciseId": "reverse-grip-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows down and back, keep the chest tall"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "lateral-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tilt the dumbbell such that your pinky comes up first"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Strength Base",
+        "week": 4,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 6,
+            "repMax": 6,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "lat-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows straight out to your sides, use a 1.5x shoulder width grip"
+          },
+          {
+            "exerciseId": "romanian-deadlift",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Maintain a neutral lower back, set your hips back, don't allow your spine to round"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          },
+          {
+            "exerciseId": "db-supinated-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Strength Base",
+        "week": 4,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "ohp",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Squeeze your glutes to keep your torso upright, clear your head out of the way, press up and slightly back"
+          },
+          {
+            "exerciseId": "chest-supported-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapulae during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "leg-extension",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your quads to make the weight move"
+          },
+          {
+            "exerciseId": "cable-fly",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted, pull your inner elbows together (not your hands)"
+          },
+          {
+            "exerciseId": "crunch",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Focus on flexing your spine, don't yank your head with your arms"
+          },
+          {
+            "exerciseId": "skullcrusher",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your elbows in line with the top of your head, don't let your upper arm move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Strength Base",
+        "week": 4,
+        "exercises": [
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "incline-db-press",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 7,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, control the stretch at the bottom"
+          },
+          {
+            "exerciseId": "reverse-grip-pulldown",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull your elbows down and back, keep the chest tall"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "lateral-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tilt the dumbbell such that your pinky comes up first"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Modified Strength Base",
+        "week": 5,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "db-shoulder-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Set the bench just off vertical, press without banging the dumbbells overhead"
+          },
+          {
+            "exerciseId": "single-arm-pulldown",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Let the shoulder blade rise fully at the top, pull the elbow to the hip"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Protract your scapulae, sweep the weight out and back"
+          },
+          {
+            "exerciseId": "reverse-pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Pull your arms back and out, keep the scapulae depressed"
+          },
+          {
+            "exerciseId": "cable-lateral-raise",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Tilt the handle such that your pinky comes up first"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Modified Strength Base",
+        "week": 5,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 3,
+            "repMax": 3,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "close-grip-bench",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Grip just inside shoulder width, tuck the elbows, keep the wrists stacked"
+          },
+          {
+            "exerciseId": "one-arm-db-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapula during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "bicycle-crunch",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Rotate through the ribs, keep the lower back flat"
+          },
+          {
+            "exerciseId": "cable-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "One arm at a time. Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Modified Strength Base",
+        "week": 5,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "neutral-grip-pulldown",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull the handle to the upper chest, control the stretch at the top"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "single-arm-rope-ext",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Pin the elbow to your side, turn the pinky out at lockout"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Modified Strength Base",
+        "week": 6,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "db-shoulder-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Set the bench just off vertical, press without banging the dumbbells overhead"
+          },
+          {
+            "exerciseId": "single-arm-pulldown",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Let the shoulder blade rise fully at the top, pull the elbow to the hip"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Protract your scapulae, sweep the weight out and back"
+          },
+          {
+            "exerciseId": "reverse-pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Pull your arms back and out, keep the scapulae depressed"
+          },
+          {
+            "exerciseId": "cable-lateral-raise",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Tilt the handle such that your pinky comes up first"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Modified Strength Base",
+        "week": 6,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 3,
+            "repMax": 3,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "close-grip-bench",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Grip just inside shoulder width, tuck the elbows, keep the wrists stacked"
+          },
+          {
+            "exerciseId": "one-arm-db-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapula during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "bicycle-crunch",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Rotate through the ribs, keep the lower back flat"
+          },
+          {
+            "exerciseId": "cable-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "One arm at a time. Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Modified Strength Base",
+        "week": 6,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "neutral-grip-pulldown",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull the handle to the upper chest, control the stretch at the top"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "single-arm-rope-ext",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Pin the elbow to your side, turn the pinky out at lockout"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Modified Strength Base",
+        "week": 7,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "db-shoulder-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Set the bench just off vertical, press without banging the dumbbells overhead"
+          },
+          {
+            "exerciseId": "single-arm-pulldown",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Let the shoulder blade rise fully at the top, pull the elbow to the hip"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Protract your scapulae, sweep the weight out and back"
+          },
+          {
+            "exerciseId": "reverse-pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Pull your arms back and out, keep the scapulae depressed"
+          },
+          {
+            "exerciseId": "cable-lateral-raise",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Tilt the handle such that your pinky comes up first"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Modified Strength Base",
+        "week": 7,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 3,
+            "repMax": 3,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "close-grip-bench",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Grip just inside shoulder width, tuck the elbows, keep the wrists stacked"
+          },
+          {
+            "exerciseId": "one-arm-db-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapula during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "bicycle-crunch",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Rotate through the ribs, keep the lower back flat"
+          },
+          {
+            "exerciseId": "cable-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "One arm at a time. Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Modified Strength Base",
+        "week": 7,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "neutral-grip-pulldown",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull the handle to the upper chest, control the stretch at the top"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "single-arm-rope-ext",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Pin the elbow to your side, turn the pinky out at lockout"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #1",
+        "block": "Modified Strength Base",
+        "week": 8,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "db-shoulder-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Set the bench just off vertical, press without banging the dumbbells overhead"
+          },
+          {
+            "exerciseId": "single-arm-pulldown",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Let the shoulder blade rise fully at the top, pull the elbow to the hip"
+          },
+          {
+            "exerciseId": "hip-thrust",
+            "sets": 3,
+            "repMin": 8,
+            "repMax": 8,
+            "rpe": 9,
+            "rest": "2-3",
+            "note": "Tuck your chin and rib cage down, only move your hips. Use a pad"
+          },
+          {
+            "exerciseId": "pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Protract your scapulae, sweep the weight out and back"
+          },
+          {
+            "exerciseId": "reverse-pec-deck",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Pull your arms back and out, keep the scapulae depressed"
+          },
+          {
+            "exerciseId": "cable-lateral-raise",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 9,
+            "rest": "1-2",
+            "note": "Tilt the handle such that your pinky comes up first"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #2",
+        "block": "Modified Strength Base",
+        "week": 8,
+        "exercises": [
+          {
+            "exerciseId": "deadlift",
+            "sets": 3,
+            "repMin": 3,
+            "repMax": 3,
+            "rpe": 8,
+            "rest": "3-4",
+            "note": "Brace your lats, chest tall, hips high, pull the slack out of the bar before it leaves the ground"
+          },
+          {
+            "exerciseId": "close-grip-bench",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 7,
+            "rest": "3-4",
+            "note": "Grip just inside shoulder width, tuck the elbows, keep the wrists stacked"
+          },
+          {
+            "exerciseId": "one-arm-db-row",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Retract your scapula during the concentric, protract during the eccentric"
+          },
+          {
+            "exerciseId": "walking-lunge",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "10 steps each leg. Take medium strides, let your torso lean forward"
+          },
+          {
+            "exerciseId": "assisted-dip",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Tuck elbows at a 45° angle, lean your torso forward 15°"
+          },
+          {
+            "exerciseId": "bicycle-crunch",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 7,
+            "rest": "1-2",
+            "note": "Rotate through the ribs, keep the lower back flat"
+          },
+          {
+            "exerciseId": "cable-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "One arm at a time. Drive your pinky into the handle harder than your pointer finger"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Full Body #3",
+        "block": "Modified Strength Base",
+        "week": 8,
+        "exercises": [
+          {
+            "exerciseId": "back-squat",
+            "sets": 3,
+            "repMin": 5,
+            "repMax": 5,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Sit back and down, 15° toe flare, drive your knees out laterally"
+          },
+          {
+            "exerciseId": "bench-press",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Tuck elbows at a 45° angle, squeeze your shoulder blades and stay firm on the bench"
+          },
+          {
+            "exerciseId": "neutral-grip-pulldown",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Pull the handle to the upper chest, control the stretch at the top"
+          },
+          {
+            "exerciseId": "lying-leg-curl",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "2-3",
+            "note": "Focus on squeezing your hamstrings to make the weight move"
+          },
+          {
+            "exerciseId": "face-pull",
+            "sets": 3,
+            "repMin": 15,
+            "repMax": 15,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Keep your scapulae retracted and depressed, pull your arms back and out"
+          },
+          {
+            "exerciseId": "single-arm-rope-ext",
+            "sets": 3,
+            "repMin": 12,
+            "repMax": 12,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Pin the elbow to your side, turn the pinky out at lockout"
+          },
+          {
+            "exerciseId": "standing-calf-raise",
+            "sets": 3,
+            "repMin": 10,
+            "repMax": 10,
+            "rpe": 8,
+            "rest": "1-2",
+            "note": "Press all the way up to your toes, stretch your calves at the bottom, don't bounce"
+          }
+        ]
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      },
+      {
+        "focus": "Rest",
+        "block": "Modified Strength Base",
+        "exercises": []
+      }
+    ]
+  },
+  "customExercises": [],
+  "history": [
+    {
+      "id": 1787742376030,
+      "date": "2026-08-26T11:06:16.030Z",
+      "focus": "Full Body #2",
+      "durationMin": 88,
+      "partial": true,
+      "entries": [
+        {
+          "exerciseId": "deadlift",
+          "sets": [
+            {
+              "weight": "35",
+              "reps": "5"
+            },
+            {
+              "weight": "40",
+              "reps": "5"
+            },
+            {
+              "weight": "40",
+              "reps": "5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "ohp",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "8"
+            },
+            {
+              "weight": "20",
+              "reps": "8"
+            },
+            {
+              "weight": "20",
+              "reps": "8"
+            }
+          ]
+        },
+        {
+          "exerciseId": "leg-extension",
+          "sets": [
+            {
+              "weight": "30",
+              "reps": "9"
+            },
+            {
+              "weight": "15",
+              "reps": "12"
+            },
+            {
+              "weight": "15",
+              "reps": "12"
+            }
+          ]
+        },
+        {
+          "exerciseId": "cable-fly",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "12"
+            },
+            {
+              "weight": "10",
+              "reps": "12"
+            }
+          ]
+        },
+        {
+          "exerciseId": "crunch",
+          "sets": [
+            {
+              "weight": "",
+              "reps": "12"
+            },
+            {
+              "weight": "",
+              "reps": "12"
+            },
+            {
+              "weight": "",
+              "reps": "12"
+            }
+          ]
+        },
+        {
+          "exerciseId": "skullcrusher",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "12"
+            },
+            {
+              "weight": "10",
+              "reps": "12"
+            },
+            {
+              "weight": "10",
+              "reps": "12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1787916110453,
+      "date": "2026-08-28T11:21:50.453Z",
+      "focus": "Full Body #3",
+      "durationMin": 52,
+      "partial": true,
+      "entries": [
+        {
+          "exerciseId": "walking-lunge",
+          "sets": [
+            {
+              "weight": "",
+              "reps": "10"
+            },
+            {
+              "weight": "",
+              "reps": "10"
+            },
+            {
+              "weight": "",
+              "reps": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "incline-db-press",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "8",
+              "entry": "5"
+            },
+            {
+              "weight": "15",
+              "reps": "8",
+              "entry": "7.5"
+            },
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "reverse-grip-pulldown",
+          "sets": [
+            {
+              "weight": "15",
+              "reps": "10",
+              "entry": "15"
+            },
+            {
+              "weight": "30",
+              "reps": "10",
+              "entry": "30"
+            },
+            {
+              "weight": "30",
+              "reps": "10",
+              "entry": "30"
+            }
+          ]
+        },
+        {
+          "exerciseId": "face-pull",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "10"
+            },
+            {
+              "weight": "12.5",
+              "reps": "12",
+              "entry": "12.5"
+            },
+            {
+              "weight": "12.5",
+              "reps": "12",
+              "entry": "12.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": [
+            {
+              "weight": "5",
+              "reps": "10",
+              "entry": "2.5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lying-leg-curl",
+          "sets": [
+            {
+              "weight": "15",
+              "reps": "10",
+              "entry": "15"
+            },
+            {
+              "weight": "22.5",
+              "reps": "10",
+              "entry": "22.5"
+            },
+            {
+              "weight": "22.5",
+              "reps": "10",
+              "entry": "22.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1788176121375,
+      "date": "2026-08-31T11:35:21.375Z",
+      "focus": "Full Body #1",
+      "durationMin": 93,
+      "partial": false,
+      "entries": [
+        {
+          "exerciseId": "back-squat",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "6",
+              "entry": "0"
+            },
+            {
+              "weight": "30",
+              "reps": "6",
+              "entry": "5"
+            },
+            {
+              "weight": "35",
+              "reps": "6",
+              "entry": "7.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "bench-press",
+          "sets": [
+            {
+              "weight": "30",
+              "reps": "8",
+              "entry": "5"
+            },
+            {
+              "weight": "35",
+              "reps": "8",
+              "entry": "7.5"
+            },
+            {
+              "weight": "35",
+              "reps": "8",
+              "entry": "7.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lat-pulldown",
+          "sets": [
+            {
+              "weight": "30",
+              "reps": "10",
+              "entry": "30"
+            },
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            },
+            {
+              "weight": "45",
+              "reps": "8",
+              "entry": "45"
+            }
+          ]
+        },
+        {
+          "exerciseId": "romanian-deadlift",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "10",
+              "entry": "0"
+            },
+            {
+              "weight": "20",
+              "reps": "10",
+              "entry": "0"
+            },
+            {
+              "weight": "25",
+              "reps": "10",
+              "entry": "2.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "assisted-dip",
+          "sets": [
+            {
+              "weight": "0",
+              "reps": "11",
+              "entry": "0"
+            },
+            {
+              "weight": "2.5",
+              "reps": "11",
+              "entry": "2.5"
+            },
+            {
+              "weight": "2.5",
+              "reps": "11",
+              "entry": "2.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "standing-calf-raise",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "10"
+            },
+            {
+              "weight": "15",
+              "reps": "10",
+              "entry": "15"
+            },
+            {
+              "weight": "15",
+              "reps": "10",
+              "entry": "15"
+            }
+          ]
+        },
+        {
+          "exerciseId": "db-supinated-curl",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1788347546150,
+      "date": "2026-09-02T11:12:26.150Z",
+      "focus": "Full Body #2",
+      "durationMin": 75,
+      "partial": false,
+      "entries": [
+        {
+          "exerciseId": "deadlift",
+          "sets": [
+            {
+              "weight": "40",
+              "reps": "5",
+              "entry": "10"
+            },
+            {
+              "weight": "40",
+              "reps": "5",
+              "entry": "10"
+            },
+            {
+              "weight": "40",
+              "reps": "5",
+              "entry": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "ohp",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "0"
+            },
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "0"
+            },
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "0"
+            }
+          ]
+        },
+        {
+          "exerciseId": "chest-supported-row",
+          "sets": [
+            {
+              "weight": "5",
+              "reps": "12",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            },
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "15"
+            }
+          ]
+        },
+        {
+          "exerciseId": "leg-extension",
+          "sets": [
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "15"
+            },
+            {
+              "weight": "22.5",
+              "reps": "12",
+              "entry": "22.5"
+            },
+            {
+              "weight": "22.5",
+              "reps": "12",
+              "entry": "22.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "cable-fly",
+          "sets": [
+            {
+              "weight": "5",
+              "reps": "12",
+              "entry": "5"
+            },
+            {
+              "weight": "5",
+              "reps": "12",
+              "entry": "5"
+            },
+            {
+              "weight": "7.5",
+              "reps": "12",
+              "entry": "7.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "crunch",
+          "sets": [
+            {
+              "weight": "0",
+              "reps": "12"
+            },
+            {
+              "weight": "0",
+              "reps": "12"
+            },
+            {
+              "weight": "0",
+              "reps": "12"
+            }
+          ]
+        },
+        {
+          "exerciseId": "skullcrusher",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "0"
+            },
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "2.5"
+            },
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "2.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1788519868379,
+      "date": "2026-09-04T11:04:28.379Z",
+      "focus": "Full Body #3",
+      "durationMin": 71,
+      "partial": false,
+      "entries": [
+        {
+          "exerciseId": "walking-lunge",
+          "sets": [
+            {
+              "weight": "",
+              "reps": "10"
+            },
+            {
+              "weight": "",
+              "reps": "10"
+            },
+            {
+              "weight": "",
+              "reps": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "incline-db-press",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "10"
+            },
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "10"
+            },
+            {
+              "weight": "25",
+              "reps": "8",
+              "entry": "12.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "reverse-grip-pulldown",
+          "sets": [
+            {
+              "weight": "30",
+              "reps": "10",
+              "entry": "30"
+            },
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            },
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "hip-thrust",
+          "sets": [
+            {
+              "weight": "60",
+              "reps": "9",
+              "entry": "30"
+            },
+            {
+              "weight": "10",
+              "reps": "9",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "face-pull",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lateral-raise",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lying-leg-curl",
+          "sets": [
+            {
+              "weight": "22.5",
+              "reps": "10",
+              "entry": "22.5"
+            },
+            {
+              "weight": "30",
+              "reps": "10",
+              "entry": "30"
+            },
+            {
+              "weight": "30",
+              "reps": "7",
+              "entry": "30"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1788779564791,
+      "date": "2026-09-07T11:12:44.791Z",
+      "focus": "Full Body #1",
+      "durationMin": 50,
+      "partial": true,
+      "entries": [
+        {
+          "exerciseId": "bench-press",
+          "sets": [
+            {
+              "weight": "35",
+              "reps": "8",
+              "entry": "7.5"
+            },
+            {
+              "weight": "35",
+              "reps": "8",
+              "entry": "7.5"
+            },
+            {
+              "weight": "35",
+              "reps": "8",
+              "entry": "7.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "lat-pulldown",
+          "sets": [
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            },
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            },
+            {
+              "weight": "37.5",
+              "reps": "10",
+              "entry": "37.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "assisted-dip",
+          "sets": [
+            {
+              "weight": "25",
+              "reps": "11",
+              "entry": "25"
+            },
+            {
+              "weight": "25",
+              "reps": "11",
+              "entry": "25"
+            },
+            {
+              "weight": "30",
+              "reps": "11",
+              "entry": "30"
+            }
+          ]
+        },
+        {
+          "exerciseId": "db-supinated-curl",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            },
+            {
+              "weight": "15",
+              "reps": "6",
+              "entry": "7.5"
+            },
+            {
+              "weight": "10",
+              "reps": "10",
+              "entry": "5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1788952007917,
+      "date": "2026-09-09T11:06:47.917Z",
+      "focus": "Full Body #2",
+      "durationMin": 70,
+      "partial": false,
+      "entries": [
+        {
+          "exerciseId": "deadlift",
+          "sets": [
+            {
+              "weight": "40",
+              "reps": "5",
+              "entry": "10"
+            },
+            {
+              "weight": "45",
+              "reps": "5",
+              "entry": "12.5"
+            },
+            {
+              "weight": "45",
+              "reps": "5",
+              "entry": "12.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "ohp",
+          "sets": [
+            {
+              "weight": "20",
+              "reps": "8",
+              "entry": "0"
+            },
+            {
+              "weight": "25",
+              "reps": "8",
+              "entry": "2.5"
+            },
+            {
+              "weight": "25",
+              "reps": "8",
+              "entry": "2.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "chest-supported-row",
+          "sets": [
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            },
+            {
+              "weight": "10",
+              "reps": "12",
+              "entry": "10"
+            }
+          ]
+        },
+        {
+          "exerciseId": "leg-extension",
+          "sets": [
+            {
+              "weight": "22.5",
+              "reps": "12",
+              "entry": "22.5"
+            },
+            {
+              "weight": "22.5",
+              "reps": "12",
+              "entry": "22.5"
+            },
+            {
+              "weight": "22.5",
+              "reps": "12",
+              "entry": "22.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "cable-fly",
+          "sets": [
+            {
+              "weight": "7.5",
+              "reps": "12",
+              "entry": "7.5"
+            },
+            {
+              "weight": "7.5",
+              "reps": "12",
+              "entry": "7.5"
+            },
+            {
+              "weight": "7.5",
+              "reps": "12",
+              "entry": "7.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "crunch",
+          "sets": [
+            {
+              "weight": "37.5",
+              "reps": "12",
+              "entry": "37.5"
+            },
+            {
+              "weight": "52.5",
+              "reps": "12",
+              "entry": "52.5"
+            },
+            {
+              "weight": "52.5",
+              "reps": "12",
+              "entry": "52.5"
+            }
+          ]
+        },
+        {
+          "exerciseId": "skullcrusher",
+          "sets": [
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "2.5"
+            },
+            {
+              "weight": "15",
+              "reps": "12",
+              "entry": "2.5"
+            },
+            {
+              "weight": "20",
+              "reps": "7",
+              "entry": "5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "_reference": {
+    "exercises": [
+      "bench-press — Barbell Bench Press (Chest, Barbell, compound, loads as bar)",
+      "incline-db-press — Incline Dumbbell Press (Chest, Dumbbell, compound, loads as dbPair)",
+      "flat-db-press — Flat Dumbbell Press (Chest, Dumbbell, compound, loads as dbPair)",
+      "cable-fly — Cable Chest Fly (Chest, Cable, isolation, loads as stack)",
+      "pec-deck — Pec Deck (Chest, Machine, isolation, loads as stack)",
+      "dips — Chest Dip (Chest, Bodyweight, compound, loads as body)",
+      "push-up — Push-Up (Chest, Bodyweight, compound, loads as body)",
+      "pull-up — Pull-Up (Back, Bodyweight, compound, loads as body)",
+      "lat-pulldown — Lat Pulldown (Back, Cable, compound, loads as stack)",
+      "chest-supported-row — Chest-Supported Row (Back, Machine, compound, loads as stack)",
+      "barbell-row — Barbell Row (Back, Barbell, compound, loads as bar)",
+      "seated-cable-row — Seated Cable Row (Back, Cable, compound, loads as stack)",
+      "one-arm-db-row — One-Arm Dumbbell Row (Back, Dumbbell, compound, loads as dbOne)",
+      "straight-arm-pulldown — Straight-Arm Pulldown (Back, Cable, isolation, loads as stack)",
+      "face-pull — Face Pull (Back, Cable, isolation, loads as stack)",
+      "ohp — Overhead Press (Shoulders, Barbell, compound, loads as bar)",
+      "db-shoulder-press — Seated Dumbbell Shoulder Press (Shoulders, Dumbbell, compound, loads as dbPair)",
+      "lateral-raise — Dumbbell Lateral Raise (Shoulders, Dumbbell, isolation, loads as dbPair)",
+      "cable-lateral-raise — Cable Lateral Raise (Shoulders, Cable, isolation, loads as stack)",
+      "reverse-pec-deck — Reverse Pec Deck (Shoulders, Machine, isolation, loads as stack)",
+      "barbell-curl — Barbell Curl (Biceps, Barbell, isolation, loads as bar)",
+      "incline-db-curl — Incline Dumbbell Curl (Biceps, Dumbbell, isolation, loads as dbPair)",
+      "hammer-curl — Hammer Curl (Biceps, Dumbbell, isolation, loads as dbPair)",
+      "cable-curl — Cable Curl (Biceps, Cable, isolation, loads as stack)",
+      "preacher-curl — Preacher Curl (Biceps, Machine, isolation, loads as stack)",
+      "close-grip-bench — Close-Grip Bench Press (Triceps, Barbell, compound, loads as bar)",
+      "triceps-pushdown — Triceps Pushdown (Triceps, Cable, isolation, loads as stack)",
+      "overhead-cable-ext — Overhead Cable Triceps Extension (Triceps, Cable, isolation, loads as stack)",
+      "skullcrusher — EZ-Bar Skullcrusher (Triceps, Barbell, isolation, loads as bar)",
+      "back-squat — Barbell Back Squat (Quads, Barbell, compound, loads as bar)",
+      "front-squat — Front Squat (Quads, Barbell, compound, loads as bar)",
+      "hack-squat — Hack Squat (Quads, Machine, compound, loads as stack)",
+      "leg-press — Leg Press (Quads, Machine, compound, loads as stack)",
+      "bulgarian-split-squat — Bulgarian Split Squat (Quads, Dumbbell, compound, loads as dbPair)",
+      "walking-lunge — Walking Lunge (Quads, Dumbbell, compound, loads as dbPair)",
+      "leg-extension — Leg Extension (Quads, Machine, isolation, loads as stack)",
+      "romanian-deadlift — Romanian Deadlift (Hamstrings, Barbell, compound, loads as bar)",
+      "deadlift — Conventional Deadlift (Hamstrings, Barbell, compound, loads as bar)",
+      "lying-leg-curl — Lying Leg Curl (Hamstrings, Machine, isolation, loads as stack)",
+      "seated-leg-curl — Seated Leg Curl (Hamstrings, Machine, isolation, loads as stack)",
+      "hip-thrust — Barbell Hip Thrust (Glutes, Barbell, compound, loads as bar)",
+      "back-extension — 45° Back Extension (Glutes, Bodyweight, isolation, loads as body)",
+      "standing-calf-raise — Standing Calf Raise (Calves, Machine, isolation, loads as stack)",
+      "seated-calf-raise — Seated Calf Raise (Calves, Machine, isolation, loads as stack)",
+      "hanging-leg-raise — Hanging Leg Raise (Core, Bodyweight, isolation, loads as body)",
+      "cable-crunch — Cable Crunch (Core, Cable, isolation, loads as stack)",
+      "plank — Plank (Core, Bodyweight, isolation, loads as body)",
+      "assisted-dip — Assisted Dip (Chest, Machine, compound, loads as stack)",
+      "db-supinated-curl — Dumbbell Supinated Curl (Biceps, Dumbbell, isolation, loads as dbPair)",
+      "crunch — Crunch (Core, Bodyweight, isolation, loads as body)",
+      "bicycle-crunch — Bicycle Crunch (Core, Bodyweight, isolation, loads as body)",
+      "reverse-grip-pulldown — Reverse Grip Lat Pulldown (Back, Cable, compound, loads as stack)",
+      "neutral-grip-pulldown — Neutral-Grip Pulldown (Back, Cable, compound, loads as stack)",
+      "single-arm-pulldown — Single-Arm Pulldown (Back, Cable, compound, loads as stack)",
+      "single-arm-rope-ext — Single-Arm Rope Triceps Extension (Triceps, Cable, isolation, loads as stack)"
+    ],
+    "bookSplits": [
+      "Upper Lower Split — 4 training days: Upper / Rest / Lower / Rest / Upper / Rest / Lower",
+      "Upper Lower Split — 6 training days: Upper / Lower / Upper / Lower / Upper / Lower / Rest",
+      "Push Pull Legs Split — 6 training days: Push / Pull / Legs / Push / Pull / Legs / Rest",
+      "Full Body Split — 3 training days: Full Body / Rest / Rest / Full Body / Rest / Full Body / Rest",
+      "Full Body Split — 5 training days: Full Body / Full Body / Full Body / Full Body / Full Body / Rest / Rest"
+    ]
+  }
+}

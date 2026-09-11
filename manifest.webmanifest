@@ -1,25 +1,31 @@
 {
+  "id": "./gym.html",
   "name": "Recomp",
   "short_name": "Recomp",
-  "start_url": "./",
+  "description": "Training, recovery, and progress tracking.",
+  "start_url": "./gym.html",
   "scope": "./",
-  "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone"],
-  "background_color": "#121217",
-  "theme_color": "#121217",
-  "description": "Body recomposition training web app.",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#8B8CFF",
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

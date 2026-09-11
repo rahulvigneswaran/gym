@@ -1,0 +1,20 @@
+# The book and the working notes it was converted from. Not mine to publish.
+notes.pdf
+notes2.pdf
+notes.md
+notes2.md
+notes.json
+notes2.json
+rahul_notes.md
+
+# Local snapshots of the app. Git keeps the history now.
+versions/
+
+# Superseded exports; the current one is the file that ships.
+recomp-2026-08-28.json
+
+# OS and editor litter
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
