@@ -152,37 +152,3 @@ self.addEventListener("fetch", (event) => {
     await cache.put(url, forCache);
   }).catch(() => {}));
 });
-
-async function openApp(view) {
-  let windows = [];
-  try {
-    windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-  } catch {
-    // If enumeration fails, the fixed app URL remains a safe fallback.
-  }
-  for (const client of windows) {
-    let url;
-    try {
-      url = new URL(client.url);
-    } catch {
-      continue;
-    }
-    if (!isAppURL(url)) continue;
-    try {
-      const focused = await client.focus();
-      (focused || client).postMessage({ type: "recomp-open", view });
-      return;
-    } catch {
-      // A tab may close between enumeration and focus; try another matching tab.
-    }
-  }
-  await self.clients.openWindow(new URL(`./gym.html?view=${view}`, SCOPE_URL).href);
-}
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const view = event.notification.data?.view === "rest" ? "rest" : "today";
-  // Notifications originate in the opt-in page. endsAt is metadata, not an alarm.
-  // Never read a URL from notification data or navigate/reload an existing tab.
-  event.waitUntil(openApp(view).catch(() => {}));
-});

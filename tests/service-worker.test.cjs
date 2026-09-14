@@ -64,46 +64,19 @@ function createStorage() {
   };
 }
 
-function windowClient(url, { focusFails = false, messageFails = false } = {}) {
-  return {
-    url,
-    focused: 0,
-    messages: [],
-    async focus() {
-      this.focused += 1;
-      if (focusFails) throw new Error("Tab closed");
-      return this;
-    },
-    postMessage(message) {
-      if (messageFails) throw new Error("Tab closed");
-      this.messages.push({ ...message });
-    },
-  };
-}
-
 function createWorker(options = {}) {
   const scope = options.scope || DEFAULT_SCOPE;
   const storage = options.storage || createStorage();
   const handlers = new Map();
   const timers = new Map();
   let timerId = 0;
-  const state = { fetches: [], opened: [], matched: [], claimed: 0, skipped: 0, closed: 0 };
+  const state = { fetches: [], claimed: 0, skipped: 0 };
   const self = {
     registration: { scope },
     addEventListener(type, handler) { handlers.set(type, handler); },
     async skipWaiting() { state.skipped += 1; },
     clients: {
       async claim() { state.claimed += 1; },
-      async matchAll(settings) {
-        state.matched.push({ ...settings });
-        if (options.matchAllFails) throw new Error("Enumeration unavailable");
-        return options.windows || [];
-      },
-      async openWindow(url) {
-        state.opened.push(url);
-        if (options.openWindowFails) throw new Error("Opening a window was blocked");
-        return windowClient(url);
-      },
     },
   };
   const context = vm.createContext({
@@ -159,11 +132,6 @@ function createWorker(options = {}) {
     request(url, settings = {}) {
       return dispatch("fetch", { request: { url, method: "GET", mode: "navigate", ...settings } });
     },
-    click(data) {
-      return dispatch("notificationclick", {
-        notification: { data, close() { state.closed += 1; } },
-      });
-    },
     expireTimers() {
       for (const [id, timer] of [...timers]) {
         timers.delete(id);
@@ -173,16 +141,19 @@ function createWorker(options = {}) {
   };
 }
 
-test("manifest has relative install identity, dark standalone appearance, and real sized icons", () => {
+test("manifest installs fullscreen, in black, with real sized icons", () => {
   const manifest = JSON.parse(readFileSync(path.join(ROOT, "manifest.webmanifest"), "utf8"));
   assert.equal(manifest.name, "Recomp");
   assert.equal(manifest.short_name, "Recomp");
   assert.equal(manifest.id, "./gym.html");
   assert.equal(manifest.start_url, "./gym.html");
   assert.equal(manifest.scope, "./");
-  assert.equal(manifest.display, "standalone");
+  /* fullscreen is what drops the status bar; standalone is the fallback */
+  assert.equal(manifest.display, "fullscreen");
+  assert.deepEqual(manifest.display_override, ["fullscreen", "standalone"]);
   assert.equal(manifest.background_color, "#000000");
-  assert.equal(manifest.theme_color, "#8B8CFF");
+  /* a coloured theme paints the system bar; the app keeps it black */
+  assert.equal(manifest.theme_color, "#000000");
   assert.deepEqual(manifest.icons.map(({ src, sizes, purpose }) => [src, sizes, purpose]), [
     ["./icon-192.png", "192x192", "any"],
     ["./icon-512.png", "512x512", "any"],
@@ -251,7 +222,6 @@ test("activation deletes only older generations owned by this exact scope", asyn
   assert.deepEqual(worker.storage.deleted.sort(), old.sort());
   assert.deepEqual([...worker.storage.buckets.keys()].sort(), preserved.sort());
   assert.equal(worker.state.claimed, 1);
-  assert.equal(worker.state.opened.length, 0);
 });
 
 test("network-first navigation refreshes one canonical shell key, including scope-root queries", async () => {
@@ -467,101 +437,17 @@ test("root and encoded subpath deployments have distinct caches and correct rela
     await worker.install();
     await worker.activate();
     assert.deepEqual(worker.state.fetches.map(({ url }) => url), shellURLs(worker.scope));
-    await worker.click({ view: "rest", endsAt: 123 }).done;
-    assert.deepEqual(worker.state.opened, [new URL("./gym.html?view=rest", worker.scope).href]);
   }
   assert.deepEqual([...storage.buckets.keys()].sort(), workers.map(({ scope }) => cacheName(scope)).sort());
 });
 
-test("notification clicks close, focus an exact app/root tab, and post only the sanitized view", async () => {
-  for (const relative of ["gym.html?view=today#section", "./?view=today"]) {
-    for (const view of ["today", "rest"]) {
-      const unrelated = windowClient("https://example.test/gym/notes.md");
-      const app = windowClient(new URL(relative, DEFAULT_SCOPE).href);
-      const worker = createWorker({ windows: [unrelated, app] });
-      const event = worker.click({ view, endsAt: 9999999999999, url: "https://other.test/" });
-      assert.equal(worker.state.closed, 1);
-      assert.equal(event.waitUntilCount, 1);
-      await event.done;
-      assert.equal(unrelated.focused, 0);
-      assert.equal(app.focused, 1);
-      assert.deepEqual(app.messages, [{ type: "recomp-open", view }]);
-      assert.deepEqual(worker.state.matched, [{ type: "window", includeUncontrolled: true }]);
-      assert.deepEqual(worker.state.opened, []);
-      assert.equal(worker.timers.size, 0);
-      assert.equal(worker.state.fetches.length, 0);
-    }
-  }
-});
-
-test("new-window notification targets never come from payload URLs or arbitrary views", async () => {
-  const cases = [
-    [undefined, "today"],
-    [null, "today"],
-    [{}, "today"],
-    [{ view: "today", url: "https://other.test/", endsAt: 0 }, "today"],
-    [{ view: "rest", url: "https://other.test/", endsAt: 9999999999999 }, "rest"],
-    [{ view: "rest", url: "./notes.json", endsAt: "not a timestamp" }, "rest"],
-    [{ view: "https://other.test/", url: "javascript:alert(1)" }, "today"],
-    [{ view: "rest&url=https://other.test/", url: "//other.test/" }, "today"],
-    [{ view: ["rest"], url: "/notes.md" }, "today"],
-    [{ view: "REST", url: "../gym-two/gym.html" }, "today"],
-  ];
-  for (const [data, view] of cases) {
-    const windows = [
-      "https://other.test/gym/gym.html",
-      "https://example.test/gym-two/gym.html",
-      "https://example.test/gym/child/gym.html",
-      "https://example.test/gym/notes.md",
-      "https://example.test/gym/manifest.webmanifest",
-      "https://example.test/gym",
-      "https://example.test/",
-      "not a URL",
-    ].map((url) => windowClient(url));
-    const worker = createWorker({ windows });
-    await worker.click(data).done;
-    assert.equal(worker.state.closed, 1);
-    assert.ok(windows.every((client) => client.focused === 0 && client.messages.length === 0));
-    assert.deepEqual(worker.state.opened, [new URL(`./gym.html?view=${view}`, worker.scope).href]);
-    assert.equal(worker.timers.size, 0);
-  }
-});
-
-test("closed app tabs do not prevent focusing the next matching tab", async () => {
-  const appURL = new URL("gym.html", DEFAULT_SCOPE).href;
-  const closed = windowClient(appURL, { focusFails: true });
-  const live = windowClient(`${appURL}?view=today`);
-  const worker = createWorker({ windows: [closed, live] });
-  await worker.click({ view: "rest" }).done;
-  assert.equal(closed.focused, 1);
-  assert.equal(live.focused, 1);
-  assert.deepEqual(live.messages, [{ type: "recomp-open", view: "rest" }]);
-  assert.deepEqual(worker.state.opened, []);
-});
-
-test("failed focus, messaging, or client enumeration falls back to the fixed app URL", async () => {
-  const appURL = new URL("gym.html", DEFAULT_SCOPE).href;
-  for (const options of [
-    { windows: [windowClient(appURL, { focusFails: true })] },
-    { windows: [windowClient(appURL, { messageFails: true })] },
-    { matchAllFails: true },
-  ]) {
-    const worker = createWorker(options);
-    await worker.click({ view: "today", url: "https://other.test/" }).done;
-    assert.deepEqual(worker.state.opened, [`${appURL}?view=today`]);
-  }
-});
-
-test("blocked window opening does not leave a rejected notification event", async () => {
-  const worker = createWorker({ openWindowFails: true });
-  await worker.click({ view: "rest" }).done;
-  assert.equal(worker.state.closed, 1);
-  assert.deepEqual(worker.state.opened, [new URL("gym.html?view=rest", worker.scope).href]);
-});
-
-test("worker registers no push or alarm handlers and starts no background timers", () => {
+test("the worker is a cache only: no notification, push or alarm handlers, and no timers", () => {
   const worker = createWorker();
-  assert.deepEqual([...worker.handlers.keys()].sort(), ["activate", "fetch", "install", "notificationclick"]);
+  assert.deepEqual([...worker.handlers.keys()].sort(), ["activate", "fetch", "install"]);
   assert.equal(worker.timers.size, 0);
   assert.equal(worker.state.fetches.length, 0);
+  for (const api of ["showNotification", "notificationclick", "pushsubscriptionchange",
+    "clients.matchAll", "clients.openWindow", "postMessage"]) {
+    assert.equal(SOURCE.includes(api), false, `${api} must not appear in the worker`);
+  }
 });

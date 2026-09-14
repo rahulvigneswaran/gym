@@ -348,14 +348,6 @@ button{background:none;border:0;cursor:pointer}
 
 /* ---------- progress charts ---------- */
 .psub{font-size:12px;line-height:1.55;color:var(--ink3);margin:-6px 0 13px}
-.wbars{display:flex;align-items:flex-end;gap:3px;height:104px;position:relative;border-bottom:1px solid var(--line)}
-.wb{flex:1;height:100%;display:flex;align-items:flex-end}
-.wb i{display:block;width:100%;min-height:2px;border-radius:3px 3px 0 0;background:var(--accent);opacity:.45}
-.wb.now i{opacity:1}
-.wb.zero i{background:var(--line);opacity:1;height:2px}
-.wavg{position:absolute;left:0;right:0;height:0;border-top:1px dashed var(--ink3);opacity:.5}
-.wfoot{display:flex;justify-content:space-between;font-family:var(--font-n);font-size:10.5px;
-  color:var(--ink3);margin-top:7px;font-variant-numeric:tabular-nums}
 
 .mrow{display:grid;grid-template-columns:82px 1fr 32px;align-items:center;gap:10px;margin-bottom:11px}
 .mrow .mn{font-size:12.5px;color:var(--ink2)}
@@ -443,8 +435,6 @@ button{background:none;border:0;cursor:pointer}
   font-weight:700;font-stretch:92%}
 .pmast h3{font-family:var(--font-d);font-size:clamp(30px,9.5vw,42px);line-height:1;letter-spacing:-.035em;
   font-weight:600;margin:12px 0 0;font-variation-settings:"opsz" 120,"SOFT" 0,"WONK" 1}
-.pmast .deck{font-family:var(--font-r);font-size:15.5px;line-height:1.55;color:var(--ink2);margin-top:12px;
-  font-variation-settings:"opsz" 16,"WONK" 0}
 .pfig{display:flex;margin-top:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .pfig div{flex:1;min-width:0;padding:12px 12px 11px 0;border-right:1px solid var(--line)}
 .pfig div:last-child{border-right:0;padding-right:0}
@@ -485,6 +475,26 @@ button{background:none;border:0;cursor:pointer}
 .led.flat .n{font-family:var(--font-n);font-size:12px;font-weight:400;color:var(--ink3)}
 .led.flat .m{white-space:normal}
 
+/* one lift to a tile, and the tile is mostly chart */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+.tile{display:block;width:100%;text-align:left;padding:11px 11px 9px;border-radius:16px;
+  border:1px solid var(--line);background:var(--surface);transition:transform var(--t1)}
+.tile:active{transform:scale(.97)}
+.tn{display:block;font-size:12px;font-weight:600;letter-spacing:-.01em;color:var(--ink2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tv{display:flex;align-items:baseline;gap:4px;min-height:27px;font-family:var(--font-d);font-size:25px;
+  font-weight:600;line-height:1.05;letter-spacing:-.035em;margin-top:4px;font-variant-numeric:tabular-nums;
+  font-variation-settings:"opsz" 48,"WONK" 0}
+.tv small{font-family:var(--font-t);font-size:10.5px;font-weight:600;color:var(--ink3);letter-spacing:0}
+.tv.none{font-family:var(--font-n);font-size:13px;font-weight:400;color:var(--ink3);letter-spacing:0}
+.tdelta{margin-left:auto;font-family:var(--font-n);font-size:11px;font-weight:700;font-style:normal;
+  color:var(--ink3);letter-spacing:0}
+.tdelta.up{color:var(--good)}
+.tdelta.down{color:var(--bad)}
+.curve{display:block;width:100%;height:auto;margin:5px 0 4px}
+.tm{display:block;font-family:var(--font-n);font-size:10px;color:var(--ink3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+
 .slog{display:grid;grid-template-columns:auto 1fr auto;gap:0 12px;width:100%;text-align:left;
   padding:13px 0;border-bottom:1px solid var(--line);align-items:baseline}
 .slog:active{opacity:.5}
@@ -495,7 +505,7 @@ button{background:none;border:0;cursor:pointer}
 .slog .vn{font-family:var(--font-n);font-size:10.5px;color:var(--ink3);white-space:nowrap;
   font-variant-numeric:tabular-nums}
 
-.sbody .ghead,.sbody .led,.sbody .slog,.sbody .pmast{animation:ledger 520ms var(--ease-calm) both}
+.sbody .ghead,.sbody .led,.sbody .slog,.sbody .pmast,.sbody .tiles,.sbody .cgrid{animation:ledger 520ms var(--ease-calm) both}
 @keyframes ledger{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .settled{font-size:12.5px;color:var(--ink2);margin-top:10px;padding-left:11px;border-left:2px solid var(--accent)}
@@ -846,7 +856,7 @@ const DEFAULTS = {
   name: "Rahul", splitId: "fundamentals", queueIndex: 0, units: "kg", theme: "auto",
   program: null, customExercises: [], logs: [], session: null,
   dayStamp: null, startWeek: null, rest: null, sound: true,
-  notify: false, keepAwake: true, remindAt: "08:00", rpe: null
+  keepAwake: true, remindAt: "08:00", rpe: null
 };
 let S = load();
 
@@ -873,7 +883,6 @@ function migrate(s) {
   if (!s.bars.kg || typeof s.bars.kg !== "object") s.bars.kg = {};
   if (!s.bars.lb || typeof s.bars.lb !== "object") s.bars.lb = {};
   if (typeof s.sound !== "boolean") s.sound = true;
-  if (typeof s.notify !== "boolean") s.notify = false;
   if (typeof s.keepAwake !== "boolean") s.keepAwake = true;
   if (!/^\d{1,2}:\d{2}$/.test(String(s.remindAt || ""))) s.remindAt = "08:00";
   if (!(Number.isFinite(s.rpe) && s.rpe >= 5 && s.rpe <= 10)) s.rpe = null;
@@ -1221,7 +1230,7 @@ function logSet(i, k) {
 /* ---------------- rest ----------------
    The programme already prescribes rest per exercise, so the timer needs no
    settings: it reads the low end of the window and runs inside the puck. */
-let restId = null, restAlarm = null;
+let restId = null, restAlarm = null, restLate = null;
 const restSeconds = ex => {
   const m = /(\d+)/.exec(ex && ex.rest || "");
   return m ? Math.max(30, parseInt(m[1], 10) * 60) : 0;
@@ -1270,11 +1279,10 @@ function bell() {
 
 /* ---- surviving a locked phone ----
    A backgrounded page has its timers throttled and its audio suspended, which is
-   exactly the moment the bell is wanted. Four things push back: the screen is
+   exactly the moment the bell is wanted. Three things push back: the screen is
    held awake while the clock runs, silence is played so the phone treats the tab
-   as busy, the deadline is a timestamp so nothing can drift, and a notification
-   is posted the moment it passes. Lock the phone by hand anyway and the alert is
-   waiting when you pick it up, with how long ago it went off. */
+   as busy, and the deadline is a timestamp so nothing can drift. Lock the phone
+   by hand anyway and the bell rings the moment you pick it up, late but honest. */
 let wakeLock = null;
 async function holdScreen(on) {
   try {
@@ -1316,30 +1324,13 @@ function humming(on) {
   } catch (e) {}
 }
 
-const notifyOn = () => S.notify === true && typeof Notification !== "undefined" && Notification.permission === "granted";
-async function notify(title, body, tag, data) {
-  if (!notifyOn()) return false;
-  const opts = { body, tag, renotify: true, icon: "./icon-192.png", badge: "./icon-192.png", vibrate: [70, 60, 70], data };
-  try {
-    const reg = navigator.serviceWorker && await navigator.serviceWorker.getRegistration();
-    /* phones refuse the bare constructor, so the worker is the real path here */
-    if (reg && reg.showNotification) { await reg.showNotification(title, opts); return true; }
-    new Notification(title, opts);
-    return true;
-  } catch (e) { return false; }
-}
 const saidAgo = s => (s < 60 ? Math.round(s) + " seconds" : Math.round(s / 60) + " minutes");
-function nextUpLine() {
-  const t = activeTarget();
-  if (!t || !S.session) return "Back on the bar.";
-  const ex = S.session.exercises[t.ex];
-  return `${exName(ex.exerciseId)} · set ${t.set + 1} of ${ex.sets.length}`;
-}
 
 function startRest(ex) {
   const dur = restSeconds(ex);
   if (!dur) return;
   primeAudio();
+  restLate = null;
   S.rest = { dur, endsAt: Date.now() + dur * 1000 };
   save(); runRest();
 }
@@ -1366,7 +1357,7 @@ function tickRest() {
   stopRest();
   bell();
   try { if (navigator.vibrate) navigator.vibrate([70, 60, 70]); } catch (e) {}
-  if (late || document.hidden) notify("Rest is up", nextUpLine() + (late ? ` · finished ${saidAgo(over)} ago` : ""), "recomp-rest", { view: "rest" });
+  if (late) restLate = saidAgo(over);
   paintDock();
 }
 /* coming back to the app: re-arm the clock, and ring late rather than not at all */
@@ -2035,6 +2026,8 @@ function paintDock() {
     setPuck("Finish workout", () => finishSession());
   }
   acts.push(["End workout", () => openSheet("end"), true]);
+  /* the phone was locked through the end of the rest, so say how long ago it went */
+  if (restLate) acts.unshift([`rest ended ${restLate} ago`, () => { restLate = null; paintDock(); }]);
   setActs(acts); setHandle(!open);
 }
 function setPuck(label, fn, ghost, rest) {
@@ -2356,7 +2349,6 @@ const SCHEMA = {
     "units": "\"kg\" | \"lb\"",
     "queueIndex": "integer — which entry of program.days comes next; it wraps around",
     "sound": "boolean, optional (v2) — ring a bell when the rest timer runs out",
-    "notify": "boolean, optional — post a system notification when the rest timer runs out",
     "keepAwake": "boolean, optional — hold the screen on and keep the tab alive while the timer runs",
     "remindAt": "string, optional — \"HH:MM\", the alarm time written into the calendar file",
     "rpe": "number 5-10 or null, optional — the effort you train every set to. null follows the book's per-set prescription.",
@@ -2404,7 +2396,6 @@ function buildExport() {
     settings: {
       name: S.name, units: S.units, queueIndex: S.queueIndex,
       sound: S.sound !== false,
-      notify: S.notify === true,
       keepAwake: S.keepAwake !== false,
       remindAt: S.remindAt || "08:00",
       rpe: Number.isFinite(S.rpe) ? S.rpe : null,
@@ -2509,7 +2500,6 @@ function parseImport(text) {
     if (s.units === "kg" || s.units === "lb") out.settings.units = s.units;
     if (Number.isFinite(Number(s.queueIndex))) out.settings.queueIndex = clampInt(s.queueIndex, 0, 9999, 0);
     if (typeof s.sound === "boolean") out.settings.sound = s.sound;
-    if (typeof s.notify === "boolean") out.settings.notify = s.notify;
     if (typeof s.keepAwake === "boolean") out.settings.keepAwake = s.keepAwake;
     if (/^\d{1,2}:\d{2}$/.test(str(s.remindAt, 5))) out.settings.remindAt = str(s.remindAt, 5);
     if (s.rpe === null) out.settings.rpe = null;
@@ -2713,34 +2703,9 @@ function weekBuckets(n) {
   return out;
 }
 
-function volChart() {
-  const weeks = weekBuckets(12);
-  const max = Math.max(1, ...weeks.map(x => x.vol));
-  const run = weeks.filter(x => x.vol > 0);
-  const avg = run.length ? run.reduce((a, x) => a + x.vol, 0) / run.length : 0;
-
-  const box = el("div");
-  const bars = el("div", "wbars");
-  weeks.forEach((x, i) => {
-    const b = el("div", "wb" + (x.vol ? (i === weeks.length - 1 ? " now" : "") : " zero"));
-    const f = el("i");
-    f.style.height = x.vol ? Math.max(2, (x.vol / max) * 100) + "%" : "2px";
-    b.title = `${dmy(x.from)} — ${kFmt(x.vol)} ${S.units}`;
-    b.appendChild(f); bars.appendChild(b);
-  });
-  if (avg) {
-    const line = el("div", "wavg");
-    line.style.bottom = (avg / max) * 100 + "%";
-    bars.appendChild(line);
-  }
-  box.appendChild(bars);
-  const foot = el("div", "wfoot");
-  foot.appendChild(el("span", null, dmy(weeks[0].from)));
-  foot.appendChild(el("span", null, `avg ${kFmt(avg)} · peak ${kFmt(max)} ${S.units}`));
-  foot.appendChild(el("span", null, "this week"));
-  box.appendChild(foot);
-  return box;
-}
+/* only the weeks you have actually trained through, so a chart is not mostly gap */
+const historyWeeks = (min, max) =>
+  (S.logs.length ? Math.min(max, Math.max(min, Math.ceil(calDays(S.logs[0].date) / 7) + 1)) : min);
 
 /* weighted sets per region over a rolling week, against the range the book prescribes */
 function muscleChart() {
@@ -2820,12 +2785,6 @@ const VERDICT = {
   none: "nothing reached the target",
   "no-data": "no load written down"
 };
-/* the ledger line is one line wide on a phone, so it gets the clipped form */
-const VERDICT_SHORT = {
-  raised: "worked up", "backed-off": "eased back", held: "held",
-  "reps-short": "overshot", "unknown-target": "no target",
-  none: "missed the target", "no-data": "no load"
-};
 /* bodyweight work has a real answer of zero; everything else has a blank */
 function workingText(id, est) {
   if (est.weight == null) return "not settled";
@@ -2866,56 +2825,69 @@ const whenLabel = ahead => {
   return d.toLocaleDateString(undefined, { weekday: "long" }).toLowerCase();
 };
 
-/* the range you have worked this movement through, with today's load on it */
-function loadTrack(values, current) {
-  const lo = Math.min(...values), hi = Math.max(...values);
-  if (!(hi > lo) || current == null) return null;
-  const at = Math.max(4, Math.min(100, ((current - lo) / (hi - lo)) * 100));
-  const t = el("span", "t");
-  const fill = el("i");
-  fill.style.width = at + "%";
-  const dot = el("b");
-  dot.style.left = at + "%";
-  t.appendChild(fill); t.appendChild(dot);
-  return t;
+const shortAgo = iso => { const d = calDays(iso); return d <= 0 ? "today" : d + "d"; };
+
+/* One lift, plotted. Every session is a dot; the hollow red ones are where a
+   heavier set lost reps, so you can see the overshoots you corrected. */
+function loadCurve(h) {
+  const W = 200, H = 58, px = 8, py = 10;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("class", "curve");
+  const pts = h.map(p => ({ w: p.est.weight, over: p.est.pattern === "reps-short" })).filter(p => p.w != null);
+  const n = pts.length;
+  if (!n) {
+    svg.innerHTML = `<line x1="${px}" y1="${H / 2}" x2="${W - px}" y2="${H / 2}" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>`;
+    return svg;
+  }
+  const vals = pts.map(p => p.w);
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const X = i => (n === 1 ? W / 2 : px + (i / (n - 1)) * (W - px * 2));
+  const Y = v => (hi === lo ? H / 2 : H - py - ((v - lo) / (hi - lo)) * (H - py * 2));
+  const line = pts.map((p, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p.w).toFixed(1)).join(" ");
+  let g = "";
+  if (n > 1) {
+    g += `<path d="${line} L${X(n - 1).toFixed(1)} ${H} L${X(0).toFixed(1)} ${H} Z" fill="var(--accent)" opacity=".1"/>`;
+    g += `<path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+  pts.forEach((p, i) => {
+    const r = i === n - 1 ? 3.6 : 2.3, cx = X(i).toFixed(1), cy = Y(p.w).toFixed(1);
+    g += p.over
+      ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--bg)" stroke="var(--bad)" stroke-width="1.8"/>`
+      : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--accent)"/>`;
+  });
+  svg.innerHTML = g;
+  return svg;
 }
 
-function ledgerRow(id, planned) {
+function liftTile(id, planned) {
   const h = liftHistory(id);
   const now = h.length ? h[h.length - 1] : null;
   const prev = h.slice(0, -1).reverse().find(p => p.est.weight != null);
   const est = now && now.est;
-  const help = ASSISTED.has(id);
   const settled = est && est.weight != null;
 
-  const b = el("button", "led");
-  b.appendChild(el("span", "n", exName(id)));
+  const b = el("button", "tile");
+  b.appendChild(el("span", "tn", exName(id)));
 
-  const fig = el("span", "f" + (settled ? "" : " none"));
-  if (settled) {
-    if (!est.weight && loadPlan(id).mode === "body") fig.textContent = "bw";
-    else {
-      fig.textContent = String(round1(est.weight));
-      fig.appendChild(Object.assign(el("small"), { textContent: S.units }));
-    }
-  } else fig.textContent = h.length ? "—" : "first";
-  b.appendChild(fig);
-
-  const meta = [];
-  if (planned) meta.push(`${planned.sets}×${repLabel(planned)}`);
-  if (est) meta.push(VERDICT_SHORT[est.pattern]);
-  if (now) meta.push(daysAgo(now.date));
-  else if (planned && planned.rpe) meta.push("RPE " + planned.rpe);
-  b.appendChild(el("span", "m", meta.filter(Boolean).join(" · ")));
-
+  const v = el("span", "tv" + (settled ? "" : " none"));
+  if (!settled) v.textContent = h.length ? "—" : "first";
+  else if (!est.weight && loadPlan(id).mode === "body") v.textContent = "bw";
+  else {
+    v.textContent = String(round1(est.weight));
+    v.appendChild(Object.assign(el("small"), { textContent: S.units }));
+  }
   const d = settled && prev ? round1(est.weight - prev.est.weight) : null;
-  const delta = el("span", "d" + (!d || help ? "" : d > 0 ? " up" : " down"));
-  delta.textContent = d ? (d > 0 ? "+" : "−") + Math.abs(d) + (help ? " help" : "") : "";
-  b.appendChild(delta);
-
-  const track = loadTrack(h.map(p => p.est.weight).filter(x => x != null), settled ? est.weight : null);
-  if (track) b.appendChild(track);
-
+  if (d) {
+    /* on an assisted machine a bigger number is more help, so it is not a gain */
+    const chip = el("i", "tdelta" + (ASSISTED.has(id) ? "" : d > 0 ? " up" : " down"));
+    chip.textContent = (d > 0 ? "+" : "−") + Math.abs(d);
+    v.appendChild(chip);
+  }
+  b.appendChild(v);
+  b.appendChild(loadCurve(h));
+  b.appendChild(el("span", "tm", [planned ? `${planned.sets}×${repLabel(planned)}` : null,
+    now ? shortAgo(now.date) : "new"].filter(Boolean).join(" · ")));
   b.onclick = () => openSheet("lift", id);
   return b;
 }
@@ -2924,7 +2896,7 @@ const COUNT_WORD = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
 const spell = n => COUNT_WORD[n] || String(n);
 
 function consistencyGrid() {
-  const weeks = weekBuckets(10);
+  const weeks = weekBuckets(historyWeeks(4, 10));
   const trained = new Set(S.logs.map(l => dayKey(new Date(l.date))));
   const today = dayKey();
   const g = el("div", "cgrid");
@@ -2978,13 +2950,6 @@ function vProgress() {
       : short.length ? `${spell(short.length)} lift${short.length === 1 ? "" : "s"} overshot.`
       : "Every load held."
   }));
-  mast.appendChild(Object.assign(el("div", "deck"), {
-    textContent: up.length
-      ? "The weight under each movement is the one you settled on — the last set that still made its reps. Hold it until the same set feels a full point easier."
-      : short.length
-        ? "Where a heavier set came up short, the lighter load is the honest one. Stay there until it feels a full point easier."
-        : "Nothing moved last time out. Add weight once the same set feels a full point easier, not before."
-  }));
   const fig = el("div", "pfig");
   [[String(weekCount()), "this week"],
    [kFmt(S.logs.reduce((a, l) => a + logSets(l), 0)), "sets logged"],
@@ -2997,38 +2962,38 @@ function vProgress() {
     });
   mast.appendChild(fig);
 
-  const shown = new Set();
-  ledgerDays().forEach(({ day, ahead }) => {
-    head(day.focus, whenLabel(ahead));
-    day.exercises.forEach(x => {
-      shown.add(x.exerciseId);
-      add(cue(ledgerRow(x.exerciseId, x)));
-    });
-  });
-
-  const retired = rows.filter(r => !shown.has(r.id));
-  if (retired.length) {
-    head("No longer on the card", `${retired.length} logged`);
-    retired.forEach(r => add(cue(ledgerRow(r.id, null))));
-  }
+  const cg = consistencyGrid();
+  const hit = cg.weeks.filter(x => x.logs.length >= 3).length;
+  head("Turning up", `${hit} full week${hit === 1 ? "" : "s"}`);
+  deck("Monday to Sunday. Three sessions makes a full week.");
+  add(cg.node);
 
   const mc = muscleChart();
   if (mc) {
     const g = BOOK.training.guidelines.volume.sets_per_bodypart_per_week;
     head("Balance", "last 7 days");
-    deck(`The shaded band is the ${g.min}–${g.max} working sets per muscle per week the book targets. Grey is under it, red is over. Secondary muscles count half a set.`);
+    deck(`The band is the ${g.min}–${g.max} sets a week the book targets. Secondary muscles count half.`);
     add(mc);
   }
 
-  head("Volume", "by week");
-  deck("Weight × reps for every logged set. The dashed line is your average across the weeks you trained.");
-  add(volChart());
+  const shown = new Set();
+  ledgerDays().forEach(({ day, ahead }) => {
+    head(day.focus, whenLabel(ahead));
+    const grid = el("div", "tiles");
+    day.exercises.forEach(x => {
+      shown.add(x.exerciseId);
+      grid.appendChild(liftTile(x.exerciseId, x));
+    });
+    add(cue(grid));
+  });
 
-  const cg = consistencyGrid();
-  const hit = cg.weeks.filter(x => x.logs.length >= 3).length;
-  head("Turning up", `${hit} full week${hit === 1 ? "" : "s"}`);
-  deck(`Monday to Sunday, last ${cg.weeks.length} weeks. Three or more sessions is a full week.`);
-  add(cg.node);
+  const retired = rows.filter(r => !shown.has(r.id));
+  if (retired.length) {
+    head("No longer on the card", `${retired.length} logged`);
+    const grid = el("div", "tiles");
+    retired.forEach(r => grid.appendChild(liftTile(r.id, null)));
+    add(cue(grid));
+  }
 
   head("Every session", `${S.logs.length} logged`);
   [...S.logs].reverse().forEach(l => {
@@ -3178,27 +3143,8 @@ function vSettings() {
 
   w.appendChild(el("div", "shead", "Reminders"));
   w.appendChild(Object.assign(el("div", "note"), {
-    textContent: "Notifications reach you while the app is open or still in the background — that is what covers the rest timer when you put the phone down. Nothing on the web can wake a closed app at a set hour, so the daily plan goes to your calendar instead and the phone's own alarm rings it."
+    textContent: "Nothing on the web can wake a closed app at a set hour, so the daily plan goes to your calendar and the phone's own alarm rings it."
   }));
-
-  const nt = el("div", "seg");
-  const notifyLive = notifyOn();
-  [[true, "On"], [false, "Off"]].forEach(([v, t]) => {
-    const b = el("button", notifyLive === v ? "on" : "", t);
-    /* the permission prompt is only allowed to appear from a tap like this one */
-    b.onclick = async () => {
-      if (!v) { S.notify = false; save(); return openSheet("settings"); }
-      if (typeof Notification === "undefined") { alert("This browser has no notifications."); return; }
-      const p = Notification.permission === "default" ? await Notification.requestPermission() : Notification.permission;
-      S.notify = p === "granted";
-      save();
-      if (S.notify) notify("Notifications are on", "This is what the end of a rest will look like.", "recomp-rest");
-      else alert("Notifications are blocked for this site. Turn them back on in your browser's settings for this page.");
-      openSheet("settings");
-    };
-    nt.appendChild(b);
-  });
-  row("Notifications", nt);
 
   const ka = el("div", "seg");
   [[true, "On"], [false, "Off"]].forEach(([v, t]) => {
@@ -3380,10 +3326,6 @@ showIntro();
 /* offline support when hosted; a file:// copy simply has no worker to register */
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
-  /* tapping a notification focuses this tab rather than opening a second one */
-  navigator.serviceWorker.addEventListener("message", e => {
-    if (e.data && e.data.type === "recomp-open") { dismissIntro(); render(); }
-  });
 }
 </script>
 </body>

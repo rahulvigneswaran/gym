@@ -5,9 +5,10 @@
   "description": "Training, recovery, and progress tracking.",
   "start_url": "./gym.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
   "background_color": "#000000",
-  "theme_color": "#8B8CFF",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "./icon-192.png",
