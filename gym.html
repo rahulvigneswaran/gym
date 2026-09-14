@@ -214,29 +214,47 @@ button{background:none;border:0;cursor:pointer}
 .cues li{margin:6px 0}
 .xnote{font-size:13.5px;color:var(--ink2);margin:14px 0 0;padding-left:12px;border-left:2px solid var(--accent)}
 
-/* ---------- opening brief ---------- */
-.intro{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;justify-content:center;
-  padding:max(env(safe-area-inset-top),30px) 28px calc(28px + env(safe-area-inset-bottom));
+/* ---------- opening brief ----------
+   One screen, never a scroll: the blocks are ordered least useful last and
+   whatever will not fit is dropped on open. */
+.intro{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;overflow:hidden;
+  padding:max(env(safe-area-inset-top),20px) 24px calc(20px + env(safe-area-inset-bottom));
   background:var(--bg);
   transition:opacity 600ms var(--ease-calm),transform 600ms var(--ease-calm)}
 .intro.out{opacity:0;transform:scale(1.05);pointer-events:none}
-.intro > *{animation:rise 720ms var(--ease-calm) both}
+.i-wrap{margin:auto 0;width:100%;flex:none}
+.i-wrap > *{animation:rise 720ms var(--ease-calm) both}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.i-greet{font-family:var(--font-d);font-size:clamp(26px,7.5vw,32px);font-weight:500;letter-spacing:-.02em;line-height:1.14;
+.i-greet{font-family:var(--font-d);font-size:clamp(22px,6.2vw,27px);font-weight:500;letter-spacing:-.02em;line-height:1.14;
   font-variation-settings:"opsz" 72,"WONK" 0}
-.i-date{color:var(--ink3);font-size:13px;margin-top:6px;letter-spacing:.01em}
-.i-rule{height:1px;background:var(--line);margin:24px 0}
-.i-kick{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);font-weight:600;font-stretch:92%}
-.i-focus{font-family:var(--font-d);font-size:clamp(48px,16vw,72px);font-weight:600;letter-spacing:-.035em;
-  line-height:.95;margin:12px 0 14px;font-variation-settings:"opsz" 144,"WONK" 1}
-.i-meta{font-family:var(--font-n);font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
-.i-moves{font-size:13.5px;color:var(--ink3);line-height:1.75;margin-top:9px}
-.i-open{font-size:14px;font-weight:600;color:var(--accent);line-height:1.5;margin-top:14px}
+.i-date{color:var(--ink3);font-size:12px;margin-top:4px;letter-spacing:.01em}
+.i-rule{height:1px;background:var(--line);margin:13px 0}
+.i-kick{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);font-weight:600;font-stretch:92%}
+.i-focus{font-family:var(--font-d);font-size:clamp(34px,11vw,52px);font-weight:600;letter-spacing:-.035em;
+  line-height:.95;margin:8px 0 9px;font-variation-settings:"opsz" 144,"WONK" 1}
+.i-meta{font-family:var(--font-n);font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.i-lifts{margin-top:10px;border-top:1px solid var(--line)}
+.i-lift{display:grid;grid-template-columns:1fr 58px auto;align-items:center;gap:9px;
+  padding:5px 0;border-bottom:1px solid var(--line)}
+.i-lift .n{font-size:12.5px;color:var(--ink2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.i-lift .w{font-family:var(--font-n);font-size:12.5px;font-variant-numeric:tabular-nums;text-align:right;
+  white-space:nowrap;min-width:42px}
+.i-lift .w small{font-size:9px;color:var(--ink3);margin-left:1px}
+.micro{display:block;width:58px;height:17px}
+.intro .mmap{max-width:158px}
+.intro .mlegend{margin-top:7px;gap:4px}
+.intro .mlegend span{font-size:9.5px;padding:2px 7px}
+.intro .mcap{margin-top:6px;font-size:9px}
+.i-dots{display:flex;gap:4px;margin-top:11px}
+.i-dots i{flex:1;height:6px;border-radius:2px;background:var(--surface2);display:block}
+.i-dots i.on{background:var(--accent)}
+.i-dots i.now{box-shadow:inset 0 0 0 1px var(--ink3)}
+.i-open{font-size:13.5px;font-weight:600;color:var(--accent);line-height:1.45;margin-top:11px}
 .i-stats{display:flex;gap:12px}
 .i-stats div{flex:1;min-width:0}
-.i-stats b{display:block;font-family:var(--font-n);font-size:clamp(22px,7vw,28px);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.i-stats span{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
-.i-line{font-family:var(--font-r);font-size:17px;font-weight:400;line-height:1.55;color:var(--ink2);margin-top:20px;
+.i-stats b{display:block;font-family:var(--font-n);font-size:clamp(19px,6vw,24px);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.i-stats span{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
+.i-line{font-family:var(--font-r);font-size:14.5px;font-weight:400;line-height:1.45;color:var(--ink2);margin-top:13px;
   font-variation-settings:"opsz" 18,"WONK" 0}
 
 /* ---------- last time + trend ---------- */
@@ -3248,12 +3266,56 @@ function briefLine() {
   if (gap === 0) return "Second time in today. Keep it short and leave something in the tank.";
   return `Last session ${daysAgo(last.date)}. Right on schedule.`;
 }
-function openerLine(day) {
-  for (const x of day.exercises) {
-    const lp = lastPerf(x.exerciseId);
-    if (lp && lp.top) return `${exName(x.exerciseId)} opens at ${lp.top}${S.units}. Beat one rep of that and the day counts.`;
+/* line only: at this size a dot is a smudge and an axis would be a lie */
+function microLine(vals) {
+  const W = 100, H = 26, p = 3;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("preserveAspectRatio", "none");
+  svg.setAttribute("class", "micro");
+  if (vals.length < 2) {
+    svg.innerHTML = `<line x1="0" y1="${H / 2}" x2="${W}" y2="${H / 2}" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/>`;
+    return svg;
   }
-  return day.exercises.length ? `You open on ${exName(day.exercises[0].exerciseId)}.` : "";
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = (hi - lo) || 1;
+  const d = vals.map((v, i) =>
+    (i ? "L" : "M") + ((i / (vals.length - 1)) * W).toFixed(1) + " " +
+    (H - p - ((v - lo) / span) * (H - p * 2)).toFixed(1)).join(" ");
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  return svg;
+}
+
+/* what is on the card, each with the load you settled on and its run of sessions */
+function introLifts(exercises) {
+  const box = el("div", "i-lifts");
+  exercises.slice(0, 9).forEach(x => {
+    const h = liftHistory(x.exerciseId);
+    const est = h.length ? h[h.length - 1].est : null;
+    const r = el("div", "i-lift");
+    r.appendChild(el("span", "n", exName(x.exerciseId)));
+    r.appendChild(microLine(h.map(p => p.est.weight).filter(v => v != null)));
+    const w = el("span", "w");
+    if (!est || est.weight == null) w.textContent = "—";
+    else if (!est.weight && loadPlan(x.exerciseId).mode === "body") w.textContent = "bw";
+    else {
+      w.textContent = String(round1(est.weight));
+      w.appendChild(Object.assign(el("small"), { textContent: S.units }));
+    }
+    r.appendChild(w);
+    box.appendChild(r);
+  });
+  return box;
+}
+
+/* the last fortnight, a bar to the day */
+function introDays(n) {
+  const trained = new Set(S.logs.map(l => dayKey(new Date(l.date))));
+  const row = el("div", "i-dots");
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    row.appendChild(el("i", (trained.has(dayKey(d)) ? "on" : "") + (i === 0 ? " now" : "")));
+  }
+  return row;
 }
 
 function showIntro() {
@@ -3274,23 +3336,26 @@ function showIntro() {
     const d = sess.exercises.reduce((a, e) => a + e.sets.filter(s => s.done).length, 0);
     const t = sess.exercises.reduce((a, e) => a + e.sets.length, 0);
     rows.push(el("div", "i-meta", `${d} of ${t} sets already down · ${Math.max(1, Math.round((Date.now() - sess.started) / 60000))} minutes in`));
+    rows.push(introLifts(sess.exercises));
   } else if (finished) {
     const sets = log.entries.reduce((a, e) => a + e.sets.length, 0);
     rows.push(el("div", "i-meta", `${sets} sets logged${log.durationMin ? " in " + log.durationMin + " minutes" : ""} · that is today handled`));
     rows.push(el("div", "i-open", "Tomorrow: " + (isRest(focusAt(tomorrowIndex())) ? "rest day" : focusAt(tomorrowIndex()))));
   } else if (resting) {
-    rows.push(el("div", "i-meta", `${nextTrain()} is next up`));
+    const next = dayAt(nextTrainIndex());
+    rows.push(el("div", "i-meta", `${next.focus} is next up`));
+    rows.push(introLifts(next.exercises));
   } else {
     rows.push(el("div", "i-meta", `${day.exercises.length} movements · ${totalSets(day.exercises)} sets · about ${estMins(day.exercises)} minutes`));
-    rows.push(el("div", "i-moves", day.exercises.map(x => exName(x.exerciseId)).join("  ·  ")));
-    const op = openerLine(day);
-    if (op) rows.push(el("div", "i-open", op));
+    rows.push(introLifts(day.exercises));
   }
 
   const load = sess ? liveLoad(sess) : finished ? loggedLoad(log) : resting ? null : plannedLoad(day);
   if (load && Object.keys(load).length) {
-    rows.push(el("div", "i-rule"));
-    rows.push(muscleBlock(load, finished ? "what you hit" : "where it lands"));
+    const m = el("div", "i-muscle");
+    m.appendChild(el("div", "i-rule"));
+    m.appendChild(muscleBlock(load, finished ? "what you hit" : "where it lands"));
+    rows.push(m);
   }
 
   rows.push(el("div", "i-rule"));
@@ -3301,14 +3366,34 @@ function showIntro() {
    [vol >= 1000 ? Math.round(vol / 1000) + "k" : String(Math.round(vol)), S.units + " moved"]]
     .forEach(([v, l]) => { const d = el("div"); d.appendChild(el("b", null, v)); d.appendChild(el("span", null, l)); st.appendChild(d); });
   rows.push(st);
+  rows.push(introDays(14));
   rows.push(el("div", "i-line", resting ? "Rest is a training day you happen to spend lying down." : briefLine()));
+
   box.innerHTML = "";
-  rows.forEach((n, i) => { n.style.animationDelay = 60 + i * 70 + "ms"; box.appendChild(n); });
+  const wrap = el("div", "i-wrap");
+  rows.forEach((n, i) => { n.style.animationDelay = 60 + i * 70 + "ms"; wrap.appendChild(n); });
+  box.appendChild(wrap);
 
   introOn = true;
   box.hidden = false;
   box.classList.remove("out");
+  fitIntro(box);
   box.onclick = dismissIntro;
+}
+
+/* The brief is one screen. Rather than guess at breakpoints, measure the real
+   thing and drop what fits least well: the closing line, then the body map,
+   then movements off the end of the list. */
+function fitIntro(box) {
+  const tall = () => box.scrollHeight > box.clientHeight;
+  if (!tall()) return;
+  [".i-line", ".i-muscle"].forEach(sel => {
+    if (!tall()) return;
+    const n = box.querySelector(sel);
+    if (n) n.remove();
+  });
+  const lifts = box.querySelector(".i-lifts");
+  while (tall() && lifts && lifts.children.length > 3) lifts.lastElementChild.remove();
 }
 function dismissIntro() {
   if (!introOn) return;
